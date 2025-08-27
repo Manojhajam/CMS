@@ -2,7 +2,7 @@ import { userModel } from "../Model/userModel.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body;
 
     const findemail = await userModel.findOne({ email });
     if (findemail) {
@@ -14,7 +14,6 @@ export const register = async (req, res) => {
     const User = await userModel.create({
       name,
       email,
-      password,
     });
 
     return res.status(200).json({
