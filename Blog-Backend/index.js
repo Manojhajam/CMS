@@ -5,7 +5,7 @@ const app = express();
 const PORT = 5000;
 
 
-
+app.use(express.json());
 
 app.use("/api/auth", userRouter)
 
@@ -19,7 +19,7 @@ app.get("/test", (req, res) => {
 
 
 const connectTodb =async () => {
-    const response = await mongoose.connect("mongodb://localhost:27017/Blog")
+    const response = await mongoose.connect("mongodb://localhost:27017/CMS")
     console.log(`Connected to Db : ${response.connection.name}`)
 }
 connectTodb();
