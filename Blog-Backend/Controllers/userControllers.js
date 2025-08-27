@@ -2,7 +2,8 @@ import { userModel } from "../Model/userModel.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email } = req.body;
+      const reqBody = req.body;
+      const email = reqBody.email;
 
     const findemail = await userModel.findOne({ email });
     if (findemail) {
@@ -11,14 +12,18 @@ export const register = async (req, res) => {
         message: `User with email ${email} already exists`,
       });
     }
-    const User = await userModel.create({
-      name,
-      email,
-    });
+      const User = await userModel.create(reqBody);
+      
+      const userData = {
+          name: User.name,
+          email: User.email,
+          role: User.role
+      }
 
     return res.status(200).json({
       success: true,
-      message: User,
+        data: userData,
+      message: `Dear ${User.name} Welcome to College Management System!`
     });
   } catch (error) {
     console.log(error);
@@ -30,5 +35,10 @@ export const register = async (req, res) => {
 };
 
 export const login = (req, res) => {
-  res.send("This is Login Routes");
+  try {
+      const reqBody = req.body;
+
+  } catch (error) {
+    console.log(error)
+  }
 };
