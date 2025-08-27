@@ -12,11 +12,12 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.method("ispassworValid", async (oassword) => {
-    const hashedPassword = this.password;
-    const result = await bcrypt.compare(password, hashedPassword)
-    return result;
-})
+
+userSchema.methods.isPasswordValid = async function (password) {   //password coming from login when called
+  const hashedPassword = this.password; // password stored in DB
+  const result = await bcrypt.compare(password, hashedPassword);
+  return result; // true if match, false otherwise
+};
 
 userSchema.pre("save", async function (next) {
     // Without this check, every time you call .save() on a user document—even if you just update the name or email—the pre-save hook will hash the password again. This will break login because the password gets double-hashed.
