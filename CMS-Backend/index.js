@@ -1,11 +1,14 @@
 import express from "express"
 import userRouter from "./Routes/userRoutes.js";
 import mongoose from "mongoose";
+import dotenv from "dotenv"
 const app = express();
 const PORT = 5000;
 
 
 app.use(express.json());
+
+dotenv.config();
 
 app.use("/api/auth", userRouter)
 

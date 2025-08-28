@@ -1,4 +1,5 @@
 import { userModel } from "../Model/userModel.js";
+import { generateToken } from "../utils/generateToken.js";
 
 
 export const register = async (req, res) => {
@@ -55,15 +56,25 @@ export const login =async (req, res) => {
       if (!ispassworMatched) {
           return res.status(200).json({
               success: true,
-              message: `Password doesn't matched`
+              message: `Invalid Credentails`
           })
-      }
+    }
+    
+    const token = await generateToken({ id: foundUser?._id });
+
+    if (!token) {
+      res.status(400).json({
+        success: false,
+        message: "Something went wrong!!"
+      })
+    }
 
         const userData = {
         _id: foundUser._id,
         name: foundUser.name,
         email: foundUser.email,
-        role: foundUser.role
+        role: foundUser.role,
+        token
       };
 
       return res.status(200).json({
