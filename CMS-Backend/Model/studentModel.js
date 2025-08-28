@@ -6,6 +6,7 @@ const studentschema = new Schema({
   userId: { type: ObjectId, ref: "User" },
   rollNumber: Number,
   department: String,
+  
   // A student can enroll in multiple courses → make it an array
   courses: [{ type: ObjectId, ref: "Courses" }],
   attendance: [
