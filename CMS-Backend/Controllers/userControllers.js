@@ -60,7 +60,7 @@ export const login =async (req, res) => {
           })
     }
     
-    const token = await generateToken({ id: foundUser?._id });
+    const token = await generateToken({ _id: foundUser?._id });
 
     if (!token) {
       res.status(400).json({
