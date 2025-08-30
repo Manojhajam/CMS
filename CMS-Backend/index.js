@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv"
 import studentRouter from "./Routes/studentsRoutes.js";
 import adminRouter from "./Routes/adminRoutes.js";
+import courseRouter from "./Routes/courseRoutes.js";
 const app = express();
 const PORT = 5000;
 
@@ -15,6 +16,8 @@ dotenv.config();
 app.use("/api/auth", userRouter)
 // app.use("/api/students", studentRouter)
 app.use("/api/users", adminRouter)
+
+app.use("/api/courses", courseRouter);
 
 
 

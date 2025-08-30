@@ -9,6 +9,8 @@ adminRouter
   .route("/students")
   .post(checkAuthorization, adminLevelPermissions, createNewStudent);
 
-adminRouter.route("/faculty").post(checkAuthorization, adminLevelPermissions, createNewFaculty);
+adminRouter.route("/faculty")
+  .post(checkAuthorization, adminLevelPermissions, createNewFaculty);
+
 
 export default adminRouter;
