@@ -1,7 +1,7 @@
+import { facultyModel } from "../Model/facultyModel.js";
 import { studentModel } from "../Model/studentModel.js";
 
-
-export const createStudent = async (req, res) => {
+export const createNewStudent = async (req, res) => {
   try {
     const reqBody = req.body;
 
@@ -18,6 +18,29 @@ export const createStudent = async (req, res) => {
     res.status(200).json({
       success: true,
       data: studentData,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+
+export const createNewFaculty = async (req, res) => {
+  try {
+    const reqBody = req.body;
+
+    const faculty = await facultyModel.create(reqBody);
+
+   
+
+    res.status(200).json({
+      success: true,
+      data: faculty,
     });
   } catch (error) {
     console.log(error);
