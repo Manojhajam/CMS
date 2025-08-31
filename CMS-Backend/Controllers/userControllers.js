@@ -83,10 +83,6 @@ export const login =async (req, res) => {
         message: `Welcome back ${foundUser.name}`
       });
     
-
-
-  
-
   } catch (error) {
     console.log(error)
      res.status(500).json({
@@ -147,4 +143,34 @@ try {
     message: error.message,
   });
 }
+}
+
+
+
+export const deleteUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const founduser = await userModel.findById(userId)
+    if (!founduser) {
+      return res.status(403).json({
+        success: false,
+        message: `User with ${userId} not found!`
+      })
+    }
+    
+    const deletedUser = await userModel.findByIdAndDelete(userId)
+    return res.status(200).json({
+      success: true,
+      data: deletedUser,
+      message: `User ${founduser.name} deleted successfully!!`,
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 }
