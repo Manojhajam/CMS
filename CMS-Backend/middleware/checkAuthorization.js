@@ -25,7 +25,7 @@ export const checkAuthorization = async (req, res, next) => {
     const user = await userModel.findById(decoded._id);
 
     if (!user) {
-      return res.json({
+      return res.status(403).json({
         success: false,
         message: "Invalid User or User not found!",
       });

@@ -170,7 +170,28 @@ export const deleteUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: error.message
     });
+  }
+}
+
+export const getProfile = async (req, res) => {
+  
+  try {
+    const user = req.user.toObject();       //.toObject() converts the Mongoose document into a plain JavaScript object
+
+    delete user.password;
+
+    res.status(200).json({
+      success: true,
+      data: user
+    })
+    
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    })
   }
 }
