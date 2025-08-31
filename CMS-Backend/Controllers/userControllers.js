@@ -89,5 +89,41 @@ export const login =async (req, res) => {
 
   } catch (error) {
     console.log(error)
+     res.status(500).json({
+       success: false,
+       message: error.message,
+     });
   }
 };
+
+export const updateUser = async (req, res) => {
+try {
+    const { userId } = req.params;
+
+    const reqBody = req.body;
+
+    const founduser = await userModel.findById(userId);
+    if (!founduser) {
+      return res.status(404).json({
+        success: false,
+        message: `User with ${userId} not found!`,
+      });
+    }
+
+    const updatedUser = await userModel.findByIdAndUpdate(userId, reqBody, {
+      new: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      data: updatedUser,
+      message: "User updaated Successfully!!",
+    });
+} catch (error) {
+  console.log(error);
+  res.status(500).json({
+    success: false,
+    message: error.message,
+  });
+}
+}
