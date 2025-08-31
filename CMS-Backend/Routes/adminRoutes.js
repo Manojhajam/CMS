@@ -13,7 +13,7 @@ adminRouter
 adminRouter.route("/faculty")
   .post(checkAuthorization, adminLevelPermissions, createNewFaculty);
 
-adminRouter.route("/:userId").put(checkAuthorization, adminLevelPermissions, updateUser)
+
 
 
 export default adminRouter;

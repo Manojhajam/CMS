@@ -98,27 +98,48 @@ export const login =async (req, res) => {
 
 export const updateUser = async (req, res) => {
 try {
-    const { userId } = req.params;
+  const { userId } = req.params;
 
-    const reqBody = req.body;
+  const reqBody = req.body;
 
-    const founduser = await userModel.findById(userId);
-    if (!founduser) {
-      return res.status(404).json({
-        success: false,
-        message: `User with ${userId} not found!`,
-      });
-    }
-
-    const updatedUser = await userModel.findByIdAndUpdate(userId, reqBody, {
-      new: true,
+  const founduser = await userModel.findById(userId);
+  if (!founduser) {
+    return res.status(404).json({
+      success: false,
+      message: `User with ${userId} not found!`,
     });
+  }
 
-    res.status(200).json({
-      success: true,
-      data: updatedUser,
-      message: "User updaated Successfully!!",
+  if (founduser._id.toString() !== req.user._id.toString()) {
+    return res.status(403).json({
+      success: false,
+      message: "You cannot update this user!",
     });
+  }
+
+  // ❌ Prevent password update (but continue with other fields)
+  // if (reqBody.password) {
+  //   delete reqBody.password;
+  // }
+
+
+
+  if (reqBody.password) {
+   return res.status(403).json({
+      success: false,
+      message: "you cant update password",
+    });
+  }
+
+  const updatedUser = await userModel.findByIdAndUpdate(userId, reqBody, {
+    new: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: updatedUser,
+    message: "User updaated Successfully!!",
+  });
 } catch (error) {
   console.log(error);
   res.status(500).json({
