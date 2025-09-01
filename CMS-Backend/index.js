@@ -14,7 +14,7 @@ app.use(express.json());
 dotenv.config();
 
 app.use("/api/auth", userRouter)
-// app.use("/api/students", studentRouter)
+app.use("/api/students", studentRouter)
 app.use("/api/admin", adminRouter)
 
 app.use("/api/courses", courseRouter);
