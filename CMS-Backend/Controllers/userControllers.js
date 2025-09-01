@@ -41,29 +41,28 @@ export const login =async (req, res) => {
       const reqBody = req.body;
       const email = reqBody.email;
 
-      const foundUser =await userModel.findOne({ email })
+    const foundUser = await userModel.findOne({ email })
+    
       if (!foundUser) {
-          res.status(403).json({
+        return res.status(403).json({
               success: false,
               message: "invalid Credentials"
           })
       }
 
-      const ispassworMatched = await foundUser.isPasswordValid(
-        reqBody.password
-      );
+      const ispasswordMatched = await foundUser.isPasswordValid(reqBody.password);
 
-      if (!ispassworMatched) {
-          return res.status(200).json({
+      if (!ispasswordMatched) {
+          return res.status(401).json({
               success: true,
               message: `Invalid Credentails`
           })
     }
     
-    const token = await generateToken({ _id: foundUser?._id });
+    const token = await generateToken({ _id: foundUser._id });
 
     if (!token) {
-      res.status(400).json({
+     return res.status(400).json({
         success: false,
         message: "Something went wrong!!"
       })
@@ -77,7 +76,7 @@ export const login =async (req, res) => {
         token
       };
 
-      return res.status(200).json({
+       res.status(200).json({
         success: true,
         data: userData,
         message: `Welcome back ${foundUser.name}`
