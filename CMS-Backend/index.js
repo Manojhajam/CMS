@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import studentRouter from "./Routes/studentsRoutes.js";
 import adminRouter from "./Routes/adminRoutes.js";
 import courseRouter from "./Routes/courseRoutes.js";
+import facultyRouter from "./Routes/facultyRouter.js";
 const app = express();
 const PORT = 5000;
 
@@ -14,10 +15,12 @@ app.use(express.json());
 dotenv.config();
 
 app.use("/api/auth", userRouter)
-app.use("/api/students", studentRouter)
-app.use("/api/admin", adminRouter)
-
 app.use("/api/courses", courseRouter);
+app.use("/api/admin", adminRouter)
+app.use("/api/faculty", facultyRouter)
+app.use("/api/students", studentRouter)
+
+
 
 
 
