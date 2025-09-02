@@ -18,7 +18,7 @@ export const adminLevelPermissions = (req, res, next) => {
    }
 }
 
-export const facultyLevelPermissiond = (req, res, next) => {
+export const checkFacultyLevelPermissions = (req, res, next) => {
   try {
     const user = req.user;
 

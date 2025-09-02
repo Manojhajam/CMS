@@ -1,11 +1,13 @@
 import express from "express";
-import { createCourse, getCourse } from "../Controllers/courseControllers.js";
-import { adminLevelPermissions } from "../middleware/checkPermmission.js";
+import { createCourse, getCourse, markAttendence } from "../Controllers/courseControllers.js";
+import { adminLevelPermissions, checkFacultyLevelPermissions } from "../middleware/checkPermmission.js";
 import { checkAuthorization } from "../middleware/checkAuthorization.js";
 
 const courseRouter = express.Router();
 
 courseRouter.route("/").post(checkAuthorization, adminLevelPermissions, createCourse)
-.get(getCourse)
+    .get(getCourse)
+
+courseRouter.route("/:courseId/attendance").put(checkAuthorization, checkFacultyLevelPermissions, markAttendence)
 
 export default courseRouter;
