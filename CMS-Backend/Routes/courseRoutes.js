@@ -10,4 +10,6 @@ courseRouter.route("/").post(checkAuthorization, adminLevelPermissions, createCo
 
 courseRouter.route("/:courseId/attendance").put(checkAuthorization, checkFacultyLevelPermissions, markAttendence)
 
+courseRouter.route("/:courseId/materials").post(checkAuthorization, checkFacultyLevelPermissions, markAttendence)
+
 export default courseRouter;

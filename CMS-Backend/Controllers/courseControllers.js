@@ -44,7 +44,7 @@ export const markAttendence = async (req, res) => {
     const { courseId } = req.params;
 
       const student = await studentModel.findById(studentId);
-      console.log(student)
+      
 
     if (!student) {
       return res.status(403).json({
@@ -90,3 +90,13 @@ export const markAttendence = async (req, res) => {
     });
   }
 };
+
+
+
+export const studyMaterials = () => {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
