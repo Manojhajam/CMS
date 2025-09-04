@@ -1,6 +1,9 @@
 import { courseModel } from "../Model/coureseModel.js";
+import { materialModel } from "../Model/materialsModel.js";
 import { studentModel } from "../Model/studentModel.js";
 import { userModel } from "../Model/userModel.js";
+
+
 
 export const createCourse = async (req, res) => {
   try {
@@ -93,10 +96,51 @@ export const markAttendence = async (req, res) => {
 
 
 
-export const studyMaterials = () => {
+
+
+export const studyMaterial = async (req, res) => {
   try {
-    
+    const { id } = req.params; // course id
+    const { title, description, fileUrl, fileType } = req.body;
+    const user = req.user; // from middleware (checkAuthorization)
+
+    // only faculty or admin can upload
+    if (user.role !== "faculty" && user.role !== "admin") {
+      return res.status(403).json({
+        success: false,
+        message: "Only faculty or admin can upload course materials!",
+      });
+    }
+
+    // check course exists
+    const course = await courseModel.findById(id);
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found!",
+      });
+    }
+
+    // create material
+    const material = await materialModel.create({
+      courseId: id,
+      uploadedBy: user._id,
+      title,
+      description,
+      fileUrl,
+      fileType,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Material uploaded successfully",
+      data: material,
+    });
   } catch (error) {
-    
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
