@@ -22,4 +22,7 @@ const studentschema = new Schema({
   }]
 });
 
+
+// fix that faculty and admin user should be a student
+
 export const studentModel = mongoose.model("Student",studentschema)
