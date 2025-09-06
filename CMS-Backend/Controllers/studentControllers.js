@@ -31,21 +31,23 @@ export const viewAttendance = async (req, res) => {
   try {
     const User = req.user;
 
-    const student = await studentModel.find({ userId: User._id });
+    // Get student profile linked to this user
+    const student = await studentModel
+      .findOne({ userId: User._id })
+      .populate("attendance.courseId");
 
     if (!student) {
-      return res.status(403).json({
+      return res.status(404).json({
         success: false,
-        mesaage: "Student not found!"
-      })
+        message: "Student not found!",
+      });
     }
 
     res.status(200).json({
       success: true,
-      message: "successful"
-    })
-
-    console.log(student);
+      message: "Attendance fetched successfully",
+      data: student.attendance,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
