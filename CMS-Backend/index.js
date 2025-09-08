@@ -7,6 +7,7 @@ import adminRouter from "./Routes/adminRoutes.js";
 import courseRouter from "./Routes/courseRoutes.js";
 import facultyRouter from "./Routes/facultyRouter.js";
 import commonRoutes from "./Routes/commonRoutes.js";
+import notificationRoutes from "./Routes/notificationRoutes.js";
 const app = express();
 const PORT = 5000;
 
@@ -21,7 +22,7 @@ app.use("/api/common", commonRoutes);
 app.use("/api/admin", adminRouter)
 app.use("/api/faculty", facultyRouter)
 app.use("/api/students", studentRouter)
-
+app.use("/api/notification", notificationRoutes)
 
 
 
