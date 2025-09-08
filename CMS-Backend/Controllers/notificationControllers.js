@@ -1,7 +1,5 @@
 import { notificationModel } from "../Model/notificationModel.js";
 
-
-
 export const createNotification = async (req, res) => {
   try {
     const user = req.user; // from checkAuthorization middleware
@@ -35,8 +33,6 @@ export const createNotification = async (req, res) => {
     });
   }
 };
-
-
 
 export const getNotifications = async (req, res) => {
   try {
