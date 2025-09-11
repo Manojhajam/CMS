@@ -24,7 +24,7 @@ export const register = async (req, res) => {
           role: User.role
       }
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
         data: userData,
       message: `Dear ${User.name} Welcome to College Management System!`
@@ -32,13 +32,18 @@ export const register = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    //Handling Zod validation errors
-        if (error.errors) {
-          return res.status(400).json({
-            success: false,
-            errors: error.errors.map((e) => e.message),
-          });
-        }
+    // Only handle Zod validation errors
+    if (error.name === "ZodError" && error.errors) {
+      const errors = error.errors.map((e) => ({
+        field: e.path.join("."),
+        message: e.message,
+      }));
+
+      return res.status(400).json({
+        success: false, 
+        errors,
+      });
+    }
 
     res.status(500).json({
       success: false,
