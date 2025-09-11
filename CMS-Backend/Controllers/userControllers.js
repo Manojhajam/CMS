@@ -1,20 +1,22 @@
-import { userModel } from "../Model/userModel.js";
+import { loginuserSchema, userModel, userregisterSchema } from "../Model/userModel.js";
 import { generateToken } from "../utils/generateToken.js";
 
 
 export const register = async (req, res) => {
   try {
-      const reqBody = req.body;
-      const email = reqBody.email;
+      // const reqBody = req.body;
+    // const email = reqBody.email;
+    
+    const validateData = userregisterSchema.parse(req.body)
 
-    const findemail = await userModel.findOne({ email });
-    if (findemail) {
+    const existingUser = await userModel.findOne({ email: validateData.email });
+    if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: `User with email ${email} already exists`,
+        message: `User with email ${validateData.email} already exists`,
       });
     }
-      const User = await userModel.create(reqBody);
+      const User = await userModel.create(validateData);
       
       const userData = {
           name: User.name,
@@ -29,6 +31,15 @@ export const register = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+
+    //Handling Zod validation errors
+        if (error.errors) {
+          return res.status(400).json({
+            success: false,
+            errors: error.errors.map((e) => e.message),
+          });
+        }
+
     res.status(500).json({
       success: false,
       message: error.message,
@@ -38,10 +49,12 @@ export const register = async (req, res) => {
 
 export const login =async (req, res) => {
   try {
-      const reqBody = req.body;
-      const email = reqBody.email;
+      // const reqBody = req.body;
+    // const email = reqBody.email;
+    
+    const validateData = loginuserSchema.parse(req.body);
 
-    const foundUser = await userModel.findOne({ email })
+    const foundUser = await userModel.findOne({ email: validateData.email })
     
       if (!foundUser) {
         return res.status(403).json({
@@ -50,11 +63,11 @@ export const login =async (req, res) => {
           })
       }
 
-      const ispasswordMatched = await foundUser.isPasswordValid(reqBody.password);
+      const ispasswordMatched = await foundUser.isPasswordValid(validateData.password);
 
       if (!ispasswordMatched) {
           return res.status(401).json({
-              success: true,
+              success: false,
               message: `Invalid Credentails`
           })
     }

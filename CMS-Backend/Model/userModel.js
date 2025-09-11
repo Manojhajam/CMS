@@ -1,5 +1,28 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
+import { z } from "zod";
+
+export const userregisterSchema = z.object({
+  name: z
+    .string()
+    .min(3, "Name must be at least 3 characters long")
+    .max(50, "Name must be less than 50 characters"),
+
+  email: z.string().email("Invalid email format"),
+
+  password: z.string().trim().min(6, "Password must be at least 6 characters long"),
+
+  role: z.enum(["admin", "faculty", "student"]).optional(), // optional → default will be set in DB
+});
+
+export const loginuserSchema = z.object({
+
+  email: z.string().email("Invalid email format"),
+
+  password: z.string().trim().min(6, "Password must be at least 6 characters long")
+});
+
+
 
 const userSchema = new Schema({
   name: { type: String, required: true },
@@ -13,7 +36,7 @@ const userSchema = new Schema({
 });
 
 
-userSchema.methods.isPasswordValid = async function (password) {   //password coming from login when called
+userSchema.methods.isPasswordValid = async function (password) {//password coming from login when called
   const hashedPassword = this.password; // password stored in DB
   const result = await bcrypt.compare(password, hashedPassword);
   return result; // true if match, false otherwise
