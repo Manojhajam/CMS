@@ -5,6 +5,20 @@ export const createNewStudent = async (req, res) => {
   try {
     const reqBody = req.body;
 
+     if (!reqBody.userId) {
+       return res.status(400).json({
+         success: false,
+         message: "userId is required to create a student",
+       });
+     }
+    const userExists = await userModel.findById(reqBody.userId);
+    if (!userExists) {
+      return res.status(404).json({
+        success: false,
+        message: `User with id ${reqBody.userId} not found`,
+      });
+    }
+
     const student = await studentModel.create(reqBody);
 
     const studentData = {
