@@ -1,9 +1,9 @@
+import { success } from "zod";
 import { courseModel } from "../Model/coureseModel.js";
 import { materialModel } from "../Model/materialsModel.js";
 import { studentModel } from "../Model/studentModel.js";
 import { userModel } from "../Model/userModel.js";
-
-
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 export const createCourse = async (req, res) => {
   try {
@@ -43,11 +43,10 @@ export const getCourse = async (req, res) => {
 
 export const markAttendence = async (req, res) => {
   try {
-    const {  studentId, status } = req.body;
+    const { studentId, status } = req.body;
     const { courseId } = req.params;
 
-      const student = await studentModel.findById(studentId);
-      
+    const student = await studentModel.findById(studentId);
 
     if (!student) {
       return res.status(403).json({
@@ -84,7 +83,6 @@ export const markAttendence = async (req, res) => {
       message: "Attendance marked successfully",
       data: student,
     });
-      
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -94,14 +92,10 @@ export const markAttendence = async (req, res) => {
   }
 };
 
-
-
-
-
 export const studyMaterial = async (req, res) => {
   try {
-    const { id } = req.params; // course id
-    const { title, description, fileUrl, fileType } = req.body;
+    const { courseId } = req.params; // course id
+    const { title, description, fileType } = req.body;
     const user = req.user; // from middleware (checkAuthorization)
 
     // only faculty or admin can upload
@@ -113,7 +107,7 @@ export const studyMaterial = async (req, res) => {
     }
 
     // check course exists
-    const course = await courseModel.findById(id);
+    const course = await courseModel.findById(courseId);
     if (!course) {
       return res.status(404).json({
         success: false,
@@ -121,14 +115,33 @@ export const studyMaterial = async (req, res) => {
       });
     }
 
+    //File exitstance check
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "No file uploaded!",
+      });
+    }
+
+    //Upload file to cloudinary
+    const cloudinaryResponse = await uploadOnCloudinary(req.file.path);
+
+    if (!cloudinaryResponse) {
+      return res.status(400).json({
+        success: false,
+        message: "File upload failed. Please try again.",
+      });
+    }
+
+
     // create material
     const material = await materialModel.create({
-      courseId: id,
+      courseId: courseId,
       uploadedBy: user._id,
       title,
       description,
-      fileUrl,
-      fileType,
+      fileUrl: cloudinaryResponse.secure_url,
+      fileType: fileType || cloudinaryResponse.format,
     });
 
     res.status(201).json({
