@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const LandingPage = () => {
   return (
@@ -10,9 +11,11 @@ const LandingPage = () => {
           <button className="px-4 py-1 border-2 border-gray-4   00 text-black-600 font-bold rounded-xl hover:bg-gray-200 transition-all duration-300">
             Sign In
           </button>
+          <Link to={"/login"}>
           <button className="px-4 py-1 bg-black text-white font-medium rounded-xl shadow-md hover:bg-gray-700 hover:shadow-lg transition-all duration-300">
             Sign Up
-          </button>
+          </button> 
+          </Link>
         </div>
       </div>
 
