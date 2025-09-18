@@ -1,7 +1,49 @@
-import React from "react";
-import { Link } from "react-router";
+import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
+
+   const [name, setName] = useState("");
+   const navigate = useNavigate();
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+
+
+  const handleRegister = async (event) => {
+     event.preventDefault();
+     console.log("name", name, email, password);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password,
+        }),
+      });
+
+      const responseData = await response.json();
+      console.log("API", responseData)
+
+      if (responseData.success) {
+        alert("user id created!!");
+        setName(""); // ✅ clear name input
+        setEmail(""); // ✅ clear email input
+        setPassword(""); // ✅ clear password input
+        // navigate("/login");
+      }
+       else {
+      alert(responseData.message || "Registration failed");
+    }
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
     <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 ">
       <div>
@@ -27,7 +69,7 @@ const Login = () => {
             </label>
             <input
               id="name"
-              //   value={name}
+              value={name}
               type="text"
               placeholder="Enter Your name"
               className="border w-full p-2 rounded-lg"
@@ -38,35 +80,35 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col mt-4">
-            <label htmlFor="name" className="mb-2">
+            <label htmlFor="email" className="mb-2">
               Email
             </label>
             <input
               id="email"
-              //   value={name}
-              type="text"
+              value={email}
+              type="email"
               placeholder="Enter Your email"
               className="border w-full p-2 rounded-lg"
               onChange={(event) => {
-                setName(event.target.value);
+                setEmail(event.target.value);
               }}
             />
           </div>
           <div className="flex flex-col mt-4">
-            <label htmlFor="name" className="mb-2">
+            <label htmlFor="password" className="mb-2">
               Password
             </label>
             <input
               id="password"
-              //   value={name}
-              type="text"
+              value={password}
+              type="password"
               placeholder="Enter Your Password"
               className="border w-full p-2 rounded-lg"
               onChange={(event) => {
-                setName(event.target.value);
+                setPassword(event.target.value);
               }}
             />
-            <button className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2">
+            <button className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2" onClick={handleRegister}>
               Sign Up
             </button>
 
@@ -86,4 +128,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

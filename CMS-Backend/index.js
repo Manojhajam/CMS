@@ -1,4 +1,5 @@
 import express from "express"
+import cors from "cors"
 import userRouter from "./Routes/userRoutes.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv"
@@ -13,6 +14,15 @@ const PORT = 5000;
 
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow frontend
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    credentials: true, // If you need cookies or authentication headers
+  })
+);
+
 
 dotenv.config();
 
