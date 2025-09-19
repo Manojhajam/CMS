@@ -6,7 +6,7 @@ const userRouter = express.Router()
 
 userRouter.route("/register").post(register)
 userRouter.route("/login").post(login)
-userRouter.route("/").get(checkAuthorization, getProfile);
+userRouter.route("/profile").get(checkAuthorization, getProfile);
 userRouter
   .route("/:userId")
   .put(checkAuthorization, updateUser)

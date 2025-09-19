@@ -1,15 +1,15 @@
 import React from 'react'
-import {Router, Routes, BrowserRouter} from 'react-router'
+import {BrowserRouter} from 'react-router'
 import AuthProvider from './context/authContext'
 import PageRoutes from './routes/Routes'
 
 const App = () => {
   return (
-    <AuthProvider>
+    <AuthProvider>  
       <BrowserRouter>
         <PageRoutes />
       </BrowserRouter>
-    </AuthProvider>
+     </AuthProvider>
   );
 }
 

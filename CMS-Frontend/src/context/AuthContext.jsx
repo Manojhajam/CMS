@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
                 }
             })
 
-              if (!response.ok) {
+            if (!response.ok) {
                 console.log("Failed to fetch profile");
                 return;
             }
@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
         } catch (error) {
             console.log(error)
         }
+    };
 
         useEffect(() => {
             getMyProfile();
@@ -41,12 +42,12 @@ const AuthProvider = ({ children }) => {
         return (
             <AuthContext.Provider
                 value={{
-                    user, setUser
+                    user, setUser, getMyProfile
                 }}>
                 {children}
             </AuthContext.Provider>
         )
-    }
+    
 }
 
 export default AuthProvider

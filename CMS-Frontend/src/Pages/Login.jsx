@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, getMyProfile } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,26 +29,23 @@ const Login = () => {
       console.log("API", responseData);
 
       if (responseData?.success) {
-        // ✅ Save token in localStorage
-        localStorage.setItem("token", responseData.token);
+        localStorage.setItem("token", responseData.data.token); // ✅ Save token in localStorage
+
+          setUser(responseData.data.user);
+          
+           await getMyProfile();
 
         alert("Login Successful!!");
-        setEmail("");
-        setPassword("");
-          
 
+        navigate("/dashboard", { replace: true });
       } else {
         alert("Login failed" || responseData.message);
-        }
-        
+      }
     } catch (error) {
       console.log(error);
     }
-    };
-    
-    if (user) {
-        return <Navigate to="/dashboard" replace/>
-    }
+  };
+
   return (
     <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 ">
       <div>
