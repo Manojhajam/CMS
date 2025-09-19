@@ -1,20 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Login = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-   const [name, setName] = useState("");
-   const navigate = useNavigate();
-   const [email, setEmail] = useState("");
-   const [password, setPassword] = useState("");
-
-
-  const handleRegister = async (event) => {
-     event.preventDefault();
-     console.log("name", name, email, password);
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    console.log("name", name, email, password);
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,23 +24,20 @@ const Register = () => {
       });
 
       const responseData = await response.json();
-      console.log("API", responseData)
+      console.log("API", responseData);
 
       if (responseData.success) {
-        alert("user id created!!");
-        setName(""); // ✅ clear name input
-        setEmail(""); // ✅ clear email input
-        setPassword(""); // ✅ clear password input
+        alert("Login Successful!!");
+        setEmail("");
+        setPassword("");
         // navigate("/login");
+      } else {
+        alert("Login failed" || responseData.message);
       }
-       else {
-      alert("Registration failed" || responseData.message);
-    }
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   return (
     <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 ">
       <div>
@@ -62,21 +56,6 @@ const Register = () => {
             <p className="text-center font-light">
               Create a new account to get started
             </p>
-          </div>
-          <div className="flex flex-col mt-4">
-            <label htmlFor="name" className="mb-2">
-              Name
-            </label>
-            <input
-              id="name"
-              value={name}
-              type="text"
-              placeholder="Enter Your name"
-              className="border w-full p-2 rounded-lg"
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
-            />
           </div>
 
           <div className="flex flex-col mt-4">
@@ -108,17 +87,20 @@ const Register = () => {
                 setPassword(event.target.value);
               }}
             />
-            <button className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2" onClick={handleRegister}>
+            <button
+              className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2"
+              onClick={handleLogin}
+            >
               Sign Up
             </button>
 
             <p className="text-center mt-2">
               Already Have an Account{" "}
               <Link
-                to={"/login"}
+                to={"/register"}
                 className="underline text-blue-900 font-bold  "
               >
-                Log in
+                Sign Up
               </Link>{" "}
             </p>
           </div>
@@ -128,4 +110,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
