@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,18 +28,27 @@ const Login = () => {
       const responseData = await response.json();
       console.log("API", responseData);
 
-      if (responseData.success) {
+      if (responseData?.success) {
+        // ✅ Save token in localStorage
+        localStorage.setItem("token", responseData.token);
+
         alert("Login Successful!!");
         setEmail("");
         setPassword("");
-        // navigate("/login");
+          
+
       } else {
         alert("Login failed" || responseData.message);
-      }
+        }
+        
     } catch (error) {
       console.log(error);
     }
-  };
+    };
+    
+    if (user) {
+        return <Navigate to="/dashboard" replace/>
+    }
   return (
     <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 ">
       <div>

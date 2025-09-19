@@ -1,14 +1,16 @@
 import React from 'react'
 import {Router, Routes, BrowserRouter} from 'react-router'
-import LandingPage from './Pages/LandingPage'
+import AuthProvider from './context/authContext'
 import PageRoutes from './routes/Routes'
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <PageRoutes/>
-    </BrowserRouter>
-  )
+    <AuthProvider>
+      <BrowserRouter>
+        <PageRoutes />
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
 export default App
