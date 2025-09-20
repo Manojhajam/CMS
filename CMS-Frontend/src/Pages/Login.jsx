@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { setUser, getMyProfile } = useContext(AuthContext);
@@ -59,14 +60,17 @@ const Login = () => {
         setUser(responseData.data.user);
         await getMyProfile();
 
-        alert("Login Successful!!");
+        // alert("Login Successful!!");
+        toast.success("Login Successful 🎉");
+
         navigate("/dashboard", { replace: true });
       } else {
         alert(responseData.message || "Login failed");
       }
     } catch (error) {
       console.log(error);
-      alert("Something went wrong. Try again.");
+      // alert("Something went wrong. Try again.");
+      toast.error("Something went wrong. Try again.");
     }
   };
 
