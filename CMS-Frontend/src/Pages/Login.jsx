@@ -1,16 +1,47 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { user, setUser, getMyProfile } = useContext(AuthContext);
+  const { setUser, getMyProfile } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
+
+  const validateInputs = () => {
+    let isValid = true;
+    const newErrors = { email: "", password: "" };
+
+    // ✅ Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      newErrors.email = "Enter a valid email address";
+      isValid = false;
+    }
+
+    // ✅ Password validation
+    if (!password.trim()) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    console.log("name", name, email, password);
+
+    // ✅ Validate before API call
+    if (!validateInputs()) return;
 
     try {
       const response = await fetch("http://localhost:5000/api/auth/login", {
@@ -18,39 +49,31 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          password,
-        }),
+        body: JSON.stringify({ email, password }),
       });
 
       const responseData = await response.json();
-      console.log("API", responseData);
 
       if (responseData?.success) {
-        localStorage.setItem("token", responseData.data.token); // ✅ Save token in localStorage
-
-          setUser(responseData.data.user);
-          
-           await getMyProfile();
+        localStorage.setItem("token", responseData.data.token);
+        setUser(responseData.data.user);
+        await getMyProfile();
 
         alert("Login Successful!!");
-
         navigate("/dashboard", { replace: true });
       } else {
-        alert("Login failed" || responseData.message);
+        alert(responseData.message || "Login failed");
       }
     } catch (error) {
       console.log(error);
+      alert("Something went wrong. Try again.");
     }
   };
 
   return (
-    <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 ">
+    <div className="h-screen bg-gradient-to-tl bg-cyan-500 to-red-500 flex justify-center p-4 items-center">
       <div>
         <div className="mb-8">
-          <div className="w-15 h-15 p-3 mx-auto mb-5" />
           <h3 className="text-4xl font-bold text-center mb-2">
             Join Our College
           </h3>
@@ -58,12 +81,20 @@ const Login = () => {
             Create your academic account instantly
           </p>
         </div>
-        <form className="bg-white p-3 rounded-lg w-[400px] max-[400px]:w-fit">
+
+        <form
+          className="bg-white p-3 rounded-lg w-[400px] max-[400px]:w-fit"
+          onSubmit={handleLogin}
+        >
           <div>
-            <h3 className="text-4xl font-bold text-center mb-2">Sign Up</h3>
+            {" "}
+            <h3 className="text-4xl font-bold text-center mb-2">
+              Sign In
+            </h3>{" "}
             <p className="text-center font-light">
-              Create a new account to get started
-            </p>
+              {" "}
+              Login to to get started{" "}
+            </p>{" "}
           </div>
 
           <div className="flex flex-col mt-4">
@@ -75,12 +106,16 @@ const Login = () => {
               value={email}
               type="email"
               placeholder="Enter Your email"
-              className="border w-full p-2 rounded-lg"
-              onChange={(event) => {
-                setEmail(event.target.value);
-              }}
+              className={`border w-full p-2 rounded-lg ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
+              onChange={(e) => setEmail(e.target.value)}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
+
           <div className="flex flex-col mt-4">
             <label htmlFor="password" className="mb-2">
               Password
@@ -90,28 +125,32 @@ const Login = () => {
               value={password}
               type="password"
               placeholder="Enter Your Password"
-              className="border w-full p-2 rounded-lg"
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
+              className={`border w-full p-2 rounded-lg ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              }`}
+              onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-              className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2"
-              onClick={handleLogin}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2"
+          >
+            Login
+          </button>
+
+          <p className="text-center mt-2">
+            Don't have an account?{" "}
+            <Link
+              to={"/register"}
+              className="underline text-blue-900 font-bold"
             >
               Sign Up
-            </button>
-
-            <p className="text-center mt-2">
-              Already Have an Account{" "}
-              <Link
-                to={"/register"}
-                className="underline text-blue-900 font-bold  "
-              >
-                Sign Up
-              </Link>{" "}
-            </p>
-          </div>
+            </Link>
+          </p>
         </form>
       </div>
     </div>

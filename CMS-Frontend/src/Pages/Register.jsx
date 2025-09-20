@@ -34,7 +34,8 @@ const Register = () => {
         setName(""); // ✅ clear name input
         setEmail(""); // ✅ clear email input
         setPassword(""); // ✅ clear password input
-        // navigate("/login");
+        navigate("/login");
+        alert("Sign Up Successful!")
       }
        else {
       alert("Registration failed" || responseData.message);
