@@ -40,7 +40,7 @@ const Login = () => {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    // ✅ Validate before API call
+    // Validate before API call
     if (!validateInputs()) return;
 
     try {
