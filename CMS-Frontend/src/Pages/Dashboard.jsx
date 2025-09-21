@@ -4,6 +4,8 @@ import { AuthContext } from "../context/authContext";
 const Dashboard = () => {
   const { user } = useContext(AuthContext); // ✅ Get user from context
 
+
+
   if (!user) {
     return <div>Loading user data...</div>;
   }

@@ -1,2 +1,3 @@
 ./CMS-Backend/node_modules/
 .env
+./CMS-Frontend/node_modules
