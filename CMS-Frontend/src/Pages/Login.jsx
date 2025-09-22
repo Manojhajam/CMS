@@ -63,7 +63,7 @@ const Login = () => {
         // alert("Login Successful!!");
         toast.success("Login Successful 🎉");
 
-        navigate("/dashboard", { replace: true });
+        navigate("/sidebar", { replace: true });
       } else {
         alert(responseData.message || "Login failed");
       }
