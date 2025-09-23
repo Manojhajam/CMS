@@ -4,15 +4,15 @@ import { Link,useNavigate } from "react-router";
 import { AuthContext } from "../context/authContext";
 
 const LandingPage = () => {
-  // const { user } = useContext(AuthContext);
-  // const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // // Redirect if already logged in
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/sidebar", { replace: true });
-  //   }
-  // }, [user, navigate]);
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/sidebar", { replace: true });
+    }
+  }, [user, navigate]);
 
   return (
     <div>
