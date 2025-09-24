@@ -4,17 +4,31 @@ import { makeApiRequest } from "../lib/api";
 import DashboardCard from "../components/DashboardCard";
 
 const AdminDashboard = () => {
+  const [student, setStudent] = useState([])
 
 
-  const NoofStudent =async () => {
+  const getStudent = async () => {
     const { response, error } = await makeApiRequest({
-      endpoint: "/"
-    })
+      endpoint: "/admin/countdata",
+    });
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    console.log(response)
+
+    if (response.success) {
+      setStudent(response?.data)
+    }
   }
 
   const { user } = useContext(AuthContext); // ✅ Get user from context
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getStudent()
+  }, []);
 
   if (!user) {
     return <div>Loading user data...</div>;

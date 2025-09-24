@@ -1,6 +1,7 @@
 import { success } from "zod";
 import { facultyModel } from "../Model/facultyModel.js";
 import { studentModel } from "../Model/studentModel.js";
+import {courseModel} from "../Model/coureseModel.js"
 
 export const createNewStudent = async (req, res) => {
   try {
@@ -75,6 +76,30 @@ export const getStudentDetails = async(req, res) =>{
       success: true,
       data: students
     })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+export const getDashboardData = async (req, res) => {
+  try {
+    const studentCount = await studentModel.countDocuments();
+    const facultyCount = await facultyModel.countDocuments();
+    const courseCount = await courseModel.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      data: {
+        studentCount,
+        facultyCount,
+        courseCount
+      }
+    })
+
   } catch (error) {
     console.log(error);
     res.status(500).json({
