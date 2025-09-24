@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const { setUser, getMyProfile } = useContext(AuthContext);
+  const {user, setUser, getMyProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

@@ -1,6 +1,7 @@
 import React, { useContext,useEffect,useState } from "react";
 import { AuthContext } from "../context/authContext";
 import { makeApiRequest } from "../lib/api";
+import DashboardCard from "../components/DashboardCard";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ const Dashboard = () => {
       }
       console.log(response);
       if (response.success) {
+        setLoading(false)
         setAttendance(response.data);
       }
       setLoading(false);
@@ -32,6 +34,8 @@ const Dashboard = () => {
       console.log(error)
     }
   }
+  console.log("att",attendance);
+
   useEffect(() => {
     totalAttendenace();
   },[])
@@ -47,6 +51,20 @@ const Dashboard = () => {
         Welcome, <span className="font-semibold">{user.name}</span> 🎉
       </p>
       <p>Email: {user.email}</p>
+
+      <div className="flex gap-10 mt-5">
+        <DashboardCard
+          title={"Total attendance"}
+          data={attendance[0]?.totalDays}
+        />
+        <DashboardCard title={"Present"} data={attendance[0]?.presentDays} />
+        <DashboardCard
+          title={"Absent"}
+          data={
+            (attendance[0]?.totalDays ?? 0) - (attendance[0]?.presentDays ?? 0)
+          }
+        />
+      </div>
     </div>
   );
 };

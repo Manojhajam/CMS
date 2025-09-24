@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route, Routes } from "react-router";
 import LandingPage from "../Pages/LandingPage";
 import Register from "../Pages/Register";
@@ -7,15 +7,19 @@ import Dashboard from "../Pages/Dashboard";
 import Layout from "./Layout";
 import Profile from "../Pages/Profile";
 import ProtectedRoutes from "./ProtectedRoutes";
+import { AuthContext } from "../context/authContext";
+import AdminDashboard from "../Pages/AdminDashboard";
 
 const PageRoutes = () => {
+
+  const {user, setUser} = useContext(AuthContext)
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/sidebar" element={<Layout />}>
         <Route element={<ProtectedRoutes/>}>
-          <Route index element={<Dashboard />} />
+          <Route index element={user?.role === "student"? <Dashboard /> : <AdminDashboard/>} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
