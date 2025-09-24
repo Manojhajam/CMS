@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import { FiLogOut } from "react-icons/fi";
 
@@ -10,21 +10,28 @@ const Sidebar = () => {
     localStorage.removeItem("token");
     setUser(null)
   }
+ const navLinkClass = ({ isActive }) =>
+   `px-4 py-3 text-lg rounded-lg transition-colors duration-200 ${
+     isActive
+       ? "bg-[#8EA4D2] text-white font-semibold shadow-md"
+       : "text-gray-800 hover:bg-[#8EA4D2]/40 hover:text-gray-900"
+   }`;
+
   return (
     <nav className="fixed w-[250px] h-[100vh] bg-gray-200 p-3 flex flex-col justify-between">
       <div>
         <h3 className="text-3xl font-bold mb-4 p-4">CMS</h3>
         <div className="flex flex-col gap-2">
           <NavLink
-            className="px-4 py-4 text-lg rounded-lg hover:bg-[#8EA4D2] hover:text-white"
+            className={navLinkClass}
             to={"/sidebar"}
           >
             Dashboard
           </NavLink>
 
-          <NavLink
-            className="px-4 py-4 text-lg rounded-lg hover:bg-[#8EA4D2] hover:text-white"
-            to="/sidebar/profile"
+          <NavLink 
+            className={navLinkClass}
+            to={"/sidebar/profile"}
           >
             Profile
           </NavLink>
