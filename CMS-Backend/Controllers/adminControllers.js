@@ -1,3 +1,4 @@
+import { success } from "zod";
 import { facultyModel } from "../Model/facultyModel.js";
 import { studentModel } from "../Model/studentModel.js";
 
@@ -64,3 +65,21 @@ export const createNewFaculty = async (req, res) => {
     });
   }
 };
+
+
+export const getStudentDetails = async(req, res) =>{
+  try {
+    const students = await studentModel.find();
+
+    res.status(200).json({
+      success: true,
+      data: students
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
