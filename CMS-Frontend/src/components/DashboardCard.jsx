@@ -3,7 +3,7 @@ import React from "react";
 const DashboardCard = ({ title, data }) => {
 
   return (
-    <div className="bg-amber-200 py-2 w-full px-4 rounded-lg">
+    <div className="bg-green-400 py-4 w-full px-4 rounded-lg">
      
         <div className="flex items-center gap-40">
           <div>
