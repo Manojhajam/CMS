@@ -9,6 +9,7 @@ import Profile from "../Pages/Profile";
 import ProtectedRoutes from "./ProtectedRoutes";
 import { AuthContext } from "../context/authContext";
 import AdminDashboard from "../Pages/AdminDashboard";
+import FacultyDashboard from "../Pages/FacultyDashboard";
 
 const PageRoutes = () => {
 
@@ -19,7 +20,7 @@ const PageRoutes = () => {
 
       <Route path="/sidebar" element={<Layout />}>
         <Route element={<ProtectedRoutes/>}>
-          <Route index element={user?.role === "student"? <Dashboard /> : <AdminDashboard/>} />
+          <Route index element={user?.role === "admin"? <AdminDashboard /> : user?.role === "faculty"? <FacultyDashboard/> : <Dashboard/>} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
