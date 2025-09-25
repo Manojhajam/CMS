@@ -4,6 +4,7 @@ import {
   createNewFaculty,
   createNewStudent,
   getDashboardData,
+  getMembers,
   getStudentDetails,
 } from "../Controllers/adminControllers.js";
 import { adminLevelPermissions } from "../middleware/checkPermmission.js";
@@ -18,7 +19,7 @@ adminRouter
 adminRouter
   .route("/countdata")
   .get(checkAuthorization, adminLevelPermissions, getDashboardData);
-
+adminRouter.route("/members").get(checkAuthorization,adminLevelPermissions, getMembers)
 adminRouter
   .route("/faculty")
   .post(checkAuthorization, adminLevelPermissions, createNewFaculty);

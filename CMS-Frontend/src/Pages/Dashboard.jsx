@@ -24,7 +24,7 @@ const Dashboard = () => {
         console.log(error);
         return;
       }
-      console.log(response);
+      
       if (response.success) {
         setLoading(false)
         setAttendance(response.data);
