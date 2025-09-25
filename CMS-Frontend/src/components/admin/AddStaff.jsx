@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/Modal";
 import { makeApiRequest } from "../../lib/api";
 import { AuthContext } from "../../context/authContext";
+import {MemberContext} from "../../context/memberContext"
 
 const AddStaff = () => {
   const { user, setuser } = useContext(AuthContext);
+  const {members} =useContext(MemberContext)
   const [showModel, setShowModal] = useState(false);
   const [addFaculty, setAddFaculty] = useState([]);
   const [selectedMember, setSelectedMember] = useState("");
-  // console.log(user)
+  console.log(members)
   const AddFaculty = async () => {
     const { response, error } = await makeApiRequest({
       endpoint: "/admin/faculty",

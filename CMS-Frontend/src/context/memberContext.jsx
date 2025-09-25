@@ -1,25 +1,30 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, createContext } from "react";
 import { AuthContext } from "./authContext";
 import { makeApiRequest } from "../lib/api";
 import Loader from "../components/common/Loader";
 
+export const MemberContext = createContext();
+
 const MemberProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
-  const [members, setMembers] = useState([]);
+    const [members, setMembers] = useState([]);
+    const [loading, setLoading] = useState(true)
 
-  const fetchMembers = () => {
-    const { response, error } = makeApiRequest({
+  const fetchMembers =async () => {
+    const { response, error } =await makeApiRequest({
       endpoint: "/admin/members",
     });
-    console.log(response);
+    // console.log(response);
 
     if (error) {
-      console.log(error);
+        console.log(error);
+        setLoading(false);
       return;
     }
 
     if (response.success) {
       setMembers(response);
+      setLoading(false);
     }
   };
 
@@ -43,4 +48,4 @@ const MemberProvider = ({ children }) => {
   );
 };
 
-export default MemberContext;
+export default MemberProvider;
