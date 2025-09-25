@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
-import Modal from '../common/Modal';
+import React, { useState } from "react";
+import Modal from "../common/Modal";
 
 const AddStaff = () => {
-const {showModel, setShowModal} = useState()
+  const [showModel, setShowModal] = useState(false);
 
   return (
     <div className="bg-emerald-100 h-screen">
@@ -11,10 +11,23 @@ const {showModel, setShowModal} = useState()
           Student Management System | Admin Dashboard
         </h1>
       </div>
-        <button className='bg-amber-300 p-2 rounded-lg mt-4' >Add Staff</button>
-      {/* <Modal/> */}
+      <button
+        onClick={() => setShowModal(true)}
+        className="bg-amber-300 p-2 rounded-lg mt-4"
+      >
+        Add Staff
+      </button>
+      <Modal
+        open={showModel}
+        onClose={() => {
+          setShowModal(false);
+        }}
+        title="Add Staff"
+      >
+        <p>Hi this is Modal</p>
+      </Modal>
     </div>
   );
-}
+};
 
-export default AddStaff
+export default AddStaff;
