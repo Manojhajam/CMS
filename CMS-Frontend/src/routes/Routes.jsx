@@ -10,6 +10,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import { AuthContext } from "../context/authContext";
 import AdminDashboard from "../Pages/AdminDashboard";
 import FacultyDashboard from "../Pages/FacultyDashboard";
+import AddStaff from "../components/admin/AddStaff";
 
 const PageRoutes = () => {
 
@@ -19,8 +20,20 @@ const PageRoutes = () => {
       <Route path="/" element={<LandingPage />} />
 
       <Route path="/sidebar" element={<Layout />}>
-        <Route element={<ProtectedRoutes/>}>
-          <Route index element={user?.role === "admin"? <AdminDashboard /> : user?.role === "faculty"? <FacultyDashboard/> : <Dashboard/>} />
+        <Route element={<ProtectedRoutes />}>
+          <Route
+            index
+            element={
+              user?.role === "admin" ? (
+                <AdminDashboard />
+              ) : user?.role === "faculty" ? (
+                <FacultyDashboard />
+              ) : (
+                <Dashboard />
+              )
+            }
+          />
+          <Route path="addstaff" element={<AddStaff />} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>

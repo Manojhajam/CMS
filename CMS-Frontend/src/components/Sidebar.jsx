@@ -29,6 +29,13 @@ const Sidebar = () => {
             Dashboard
           </NavLink>
 
+           <NavLink 
+            className={navLinkClass}
+            to={"/sidebar/addstaff"}
+          >
+            Add Staff
+          </NavLink>
+
           <NavLink 
             className={navLinkClass}
             to={"/sidebar/profile"}
