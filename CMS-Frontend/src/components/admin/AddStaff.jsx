@@ -2,33 +2,75 @@ import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/Modal";
 import { makeApiRequest } from "../../lib/api";
 import { AuthContext } from "../../context/AuthContext";
-import {MemberContext} from "../../context/memberContext"
+import { MemberContext } from "../../context/memberContext";
 
 const AddStaff = () => {
-  const { user, setuser } = useContext(AuthContext);
-  const {members} =useContext(MemberContext)
+  const { user } = useContext(AuthContext);
+  const { members } = useContext(MemberContext);
+  const [employeeId, setEmployeeId] = useState("");
+  const [department, setDepartment] = useState("");
+  const [selectedcourse, setselectedCourse] = useState([]);
   const [showModel, setShowModal] = useState(false);
   const [addFaculty, setAddFaculty] = useState([]);
   const [selectedMember, setSelectedMember] = useState("");
-  console.log(members)
-  const AddFaculty = async () => {
-    const { response, error } = await makeApiRequest({
-      endpoint: "/admin/faculty",
-      method: "POST",
-    });
+  const [courselist, setCourseList] = useState([])
 
-    console.log(response);
+  const getCourse = async () => {
+    try {
+      const { response, error } = await makeApiRequest({
+        endpoint: "/courses"
+      });
 
-    if (error) {
-      console.log(error);
-      return;
+       console.log("courses",response);
+
+       if (error) {
+         console.log(error);
+         return;
+       }
+       if (response.success) {
+         setCourseList(response.data);
+       }
+
+    } catch (error) {
+      console.log(error)
     }
-    if (response.success) {
-      setAddFaculty(response.data);
+  }
+
+  const handleAddStaff = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { response, error } = await makeApiRequest({
+        endpoint: "/admin/faculty",
+        method: "POST",
+        body: {
+          userId: selectedMember,
+          employeeId,
+          department,
+          courses: selectedcourse,
+        },
+      });
+
+      console.log(response);
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (response.success) {
+        setAddFaculty(response.data);
+        setShowModal(false)
+        setSelectedMember("");
+        setEmployeeId("")
+        setDepartment("")
+        setselectedCourse("")
+      }
+    } catch (error) {
+      console.log(error)
     }
   };
   useEffect(() => {
-    AddFaculty();
+    getCourse();
   }, []);
   return (
     <div className="bg-emerald-100 h-screen">
@@ -43,7 +85,7 @@ const AddStaff = () => {
       >
         Add Staff
       </button>
-      {/* <div className="text-5xl text-pink-600 bg-red-800 p-5 w-fit rounded-lg mt-8 text-center ml-[50%] hover:bg-amber-100 hover:text-black">Priyanshi Singh</div> */}
+
       <Modal
         open={showModel}
         onClose={() => {
@@ -53,24 +95,76 @@ const AddStaff = () => {
       >
         <form>
           <h5 className="font-semibold">Fill the issuance details</h5>
-          <select name="" value={selectedMember}
-            onChange={(e) => setSelectedMember(e.target.value)
-          }>
+          <select
+            name="userId"
+            value={selectedMember}
+            onChange={(e) => setSelectedMember(e.target.value)}
+            className="w-1/2 p-2 rounded-lg border"
+          >
             <option value="">Select Member</option>
-             {members?.faculty?.map((member) => { 
+            {members?.faculty?.map((member) => {
               return (
                 <option key={member?._id} value={member?._id}>
                   {" "}
                   {member?.name}
                 </option>
               );
-              } 
-             )} 
+            })}
           </select>
           <div className="flex flex-col gap-2">
             <label htmlFor="employeeId">Employee Id</label>
-            <input type="text"/>
+            <input
+              name="employeeId"
+              type="text"
+              id="employeeId"
+              value={employeeId}
+              placeholder="Input employee id"
+              className="border w-full p-2 rounded-lg"
+              onChange={(e) => {
+                setEmployeeId(e.target.value);
+              }}
+            />
           </div>
+
+          {/* Department */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="department">Department</label>
+            <input
+              type="text"
+              id="department"
+              value={department}
+              className="border w-full p-2 rounded-lg"
+              onChange={(e) => setDepartment(e.target.value)}
+              placeholder="Please enter department"
+            />
+          </div>
+
+          {/* courses */}
+
+          <select
+            name="courses"
+            value={selectedcourse}
+            onChange={(e) => setselectedCourse([e.target.value])}
+            className="w-1/2 p-2 rounded-lg border mt-2"
+          >
+            <option value="">Select Course</option>
+            {courselist?.map((course) => {
+              return (
+                <option key={course?._id} value={course?._id}>
+                  {" "}
+                  {course?.name}
+                </option>
+              );
+            })}
+          </select>
+
+          <button
+            type="submit"
+            className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2"
+            onClick={handleAddStaff}
+          >
+            Submit
+          </button>
         </form>
       </Modal>
     </div>

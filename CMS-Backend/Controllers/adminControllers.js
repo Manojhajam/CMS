@@ -58,6 +58,7 @@ export const createNewFaculty = async (req, res) => {
     res.status(200).json({
       success: true,
       data: faculty,
+      message: "New faculty created successfully!"
     });
   } catch (error) {
     console.log(error);
