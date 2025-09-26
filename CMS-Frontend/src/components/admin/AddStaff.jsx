@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Modal from "../common/Modal";
 import { makeApiRequest } from "../../lib/api";
-import { AuthContext } from "../../context/authContext";
+import { AuthContext } from "../../context/AuthContext";
 import {MemberContext} from "../../context/memberContext"
 
 const AddStaff = () => {
@@ -43,6 +43,7 @@ const AddStaff = () => {
       >
         Add Staff
       </button>
+      {/* <div className="text-5xl text-pink-600 bg-red-800 p-5 w-fit rounded-lg mt-8 text-center ml-[50%] hover:bg-amber-100 hover:text-black">Priyanshi Singh</div> */}
       <Modal
         open={showModel}
         onClose={() => {
@@ -50,23 +51,27 @@ const AddStaff = () => {
         }}
         title="Add Staff"
       >
-        <div>
+        <form>
           <h5 className="font-semibold">Fill the issuance details</h5>
           <select name="" value={selectedMember}
             onChange={(e) => setSelectedMember(e.target.value)
           }>
             <option value="">Select Member</option>
-            {/* {user?.map((users) => { */}
+             {members?.faculty?.map((member) => { 
               return (
-                <option key={user?._id} value={user?._id}>
+                <option key={member?._id} value={member?._id}>
                   {" "}
-                  {user?.name}
+                  {member?.name}
                 </option>
               );
-             {/* } */}
-            {/* )} */}
+              } 
+             )} 
           </select>
-        </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="employeeId">Employee Id</label>
+            <input type="text"/>
+          </div>
+        </form>
       </Modal>
     </div>
   );
