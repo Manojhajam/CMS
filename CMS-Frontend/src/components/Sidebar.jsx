@@ -29,12 +29,12 @@ const Sidebar = () => {
             Dashboard
           </NavLink>
 
-           <NavLink 
+          {user?.role === "admin" && <NavLink 
             className={navLinkClass}
             to={"/sidebar/addstaff"}
           >
             Add Staff
-          </NavLink>
+          </NavLink>}
 
           <NavLink 
             className={navLinkClass}

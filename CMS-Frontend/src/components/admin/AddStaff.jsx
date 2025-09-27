@@ -13,28 +13,27 @@ const AddStaff = () => {
   const [showModel, setShowModal] = useState(false);
   const [addFaculty, setAddFaculty] = useState([]);
   const [selectedMember, setSelectedMember] = useState("");
-  const [courselist, setCourseList] = useState([])
+  const [courselist, setCourseList] = useState([]);
 
   const getCourse = async () => {
     try {
       const { response, error } = await makeApiRequest({
-        endpoint: "/courses"
+        endpoint: "/courses",
       });
 
-       console.log("courses",response);
+      console.log("courses", response);
 
-       if (error) {
-         console.log(error);
-         return;
-       }
-       if (response.success) {
-         setCourseList(response.data);
-       }
-
+      if (error) {
+        console.log(error);
+        return;
+      }
+      if (response.success) {
+        setCourseList(response.data);
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const handleAddStaff = async (event) => {
     event.preventDefault();
@@ -59,14 +58,14 @@ const AddStaff = () => {
       }
       if (response.success) {
         setAddFaculty(response.data);
-        setShowModal(false)
+        setShowModal(false);
         setSelectedMember("");
-        setEmployeeId("")
-        setDepartment("")
-        setselectedCourse("")
+        setEmployeeId("");
+        setDepartment("");
+        setselectedCourse("");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -81,7 +80,7 @@ const AddStaff = () => {
       </div>
       <button
         onClick={() => setShowModal(true)}
-        className="bg-amber-300 p-2 rounded-lg mt-4"
+        className="bg-gray-600 text-white cursor-pointer ml-2 p-2 rounded-lg mt-4"
       >
         Add Staff
       </button>
@@ -157,14 +156,16 @@ const AddStaff = () => {
               );
             })}
           </select>
-
-          <button
-            type="submit"
-            className="w-full bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-4 p-2"
-            onClick={handleAddStaff}
-          >
-            Submit
-          </button>
+          <br />
+          <div className="flex flex-col">
+            <button
+              type="button"
+              className="bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-2 flex self-end p-2"
+              onClick={handleAddStaff}
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </Modal>
     </div>

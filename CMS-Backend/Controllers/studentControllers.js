@@ -45,7 +45,7 @@ export const viewAttendance = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Attendance fetched successfully",
+      // message: "Attendance fetched successfully",
       data: student.attendance,
     });
   } catch (error) {

@@ -33,7 +33,7 @@ const PageRoutes = () => {
               )
             }
           />
-          <Route path="addstaff" element={<AddStaff />} />
+          <Route path="addstaff" element={user?.role === "admin"? (<AddStaff />) : ""} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
