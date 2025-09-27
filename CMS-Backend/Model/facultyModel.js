@@ -6,7 +6,7 @@ const facultySchema = new Schema({
   userId: { type: ObjectId, ref: "User" },
   employeeId: String,
   department: String,
-  courses: { type: ObjectId, ref: "Course" },
+  courses: [{ type: ObjectId, ref: "Course" }],
 });
 
 export const facultyModel = mongoose.model("Faculty", facultySchema);

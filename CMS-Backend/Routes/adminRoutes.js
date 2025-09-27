@@ -4,6 +4,7 @@ import {
   createNewFaculty,
   createNewStudent,
   getDashboardData,
+  getFaculty,
   getMembers,
   getStudentDetails,
 } from "../Controllers/adminControllers.js";
@@ -22,6 +23,7 @@ adminRouter
 adminRouter.route("/members").get(checkAuthorization,adminLevelPermissions, getMembers)
 adminRouter
   .route("/faculty")
-  .post(checkAuthorization, adminLevelPermissions, createNewFaculty);
+  .post(checkAuthorization, adminLevelPermissions, createNewFaculty)
+  .get(checkAuthorization, adminLevelPermissions, getFaculty)
 
 export default adminRouter;

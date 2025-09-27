@@ -4,6 +4,7 @@ import { studentModel } from "../Model/studentModel.js";
 import {courseModel} from "../Model/coureseModel.js"
 import { userModel } from "../Model/userModel.js";
 
+
 export const createNewStudent = async (req, res) => {
   try {
     const reqBody = req.body;
@@ -138,4 +139,21 @@ export const getMembers =async (req, res) => {
       message: error.message,
     });
   }
+}
+
+export const getFaculty =async (req, res) => {
+ try {
+   const faculty = await facultyModel.find().populate("courses").populate("userId")
+
+   res.status(200).json({
+     success: true,
+     data: faculty
+   })
+ } catch (error) {
+   console.log(error)
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+ } 
 }

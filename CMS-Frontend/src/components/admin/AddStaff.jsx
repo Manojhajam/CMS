@@ -3,8 +3,10 @@ import Modal from "../common/Modal";
 import { makeApiRequest } from "../../lib/api";
 import { AuthContext } from "../../context/AuthContext";
 import { MemberContext } from "../../context/memberContext";
+import Card from "../common/Card";
 
 const AddStaff = () => {
+  const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const { members } = useContext(MemberContext);
   const [employeeId, setEmployeeId] = useState("");
@@ -14,6 +16,22 @@ const AddStaff = () => {
   const [addFaculty, setAddFaculty] = useState([]);
   const [selectedMember, setSelectedMember] = useState("");
   const [courselist, setCourseList] = useState([]);
+  const [addedFacultylist, setAddedFacultylist] = useState([]);
+
+  const getFaculty = async () => {
+    setLoading(true);
+    const { response, error } = await makeApiRequest({
+      endpoint: "/admin/faculty",
+    });
+    console.log(response);
+    setLoading(false);
+
+    if (error) return;
+
+    if (response.success) {
+      setAddedFacultylist(response.data);
+    }
+  };
 
   const getCourse = async () => {
     try {
@@ -21,7 +39,7 @@ const AddStaff = () => {
         endpoint: "/courses",
       });
 
-      console.log("courses", response);
+      // console.log("courses", response);
 
       if (error) {
         console.log(error);
@@ -57,6 +75,7 @@ const AddStaff = () => {
         return;
       }
       if (response.success) {
+        
         setAddFaculty(response.data);
         setShowModal(false);
         setSelectedMember("");
@@ -70,6 +89,7 @@ const AddStaff = () => {
   };
   useEffect(() => {
     getCourse();
+    getFaculty();
   }, []);
   return (
     <div className="bg-emerald-100 h-screen">
@@ -85,6 +105,26 @@ const AddStaff = () => {
         Add Staff
       </button>
 
+      {/* Showing Staff */}
+      <div className="flex mt-2 p-2 gap-5 ">
+        {addedFacultylist?.map((faculty) => { 
+          return (
+            <Card key={faculty._id} customClass={"w-full bg-white"}>
+              <h1 className="text-2xl font-bold">{faculty.userId.name}</h1>
+              <div>
+                Courses teaches:{" "}
+                {faculty?.courses?.length > 0
+                  ? faculty.courses.map((course) => course.name).join(", ")
+                  : "No courses assigned"}
+              </div>
+              <h3>Department: {faculty.department}</h3>
+            </Card>
+          );
+        })}
+      </div>
+
+      
+      {/* Modal for adding Staff */}
       <Modal
         open={showModel}
         onClose={() => {
