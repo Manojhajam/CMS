@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../context/AuthContext";
 import { FiLogOut } from "react-icons/fi";
 
 const Sidebar = () => {
@@ -14,13 +14,13 @@ const Sidebar = () => {
    `px-4 py-3 text-lg rounded-lg transition-colors duration-200 ${
      isActive
        ? "bg-[#8EA4D2] text-white font-semibold shadow-md"
-       : "text-gray-800 hover:bg-[#8EA4D2]/40 hover:text-gray-900"
+       : "text-gray-200 hover:bg-[#8EA4D2]/40 hover:text-gray-900"
    }`;
 
   return (
-    <nav className="fixed w-[250px] h-[100vh] bg-gray-200 p-3 flex flex-col justify-between">
+    <nav className="fixed w-[250px] h-[100vh] bg-gray-700 p-3 flex flex-col justify-between">
       <div>
-        <h3 className="text-3xl font-bold mb-4 p-4">CMS</h3>
+        <h3 className="text-3xl font-bold mb-4 p-4 text-white">CMS</h3>
         <div className="flex flex-col gap-2">
           <NavLink
             className={navLinkClass}
@@ -33,7 +33,7 @@ const Sidebar = () => {
             className={navLinkClass}
             to={"/sidebar/addstaff"}
           >
-            Add Staff
+            Manage Faculty
           </NavLink>}
 
           <NavLink 

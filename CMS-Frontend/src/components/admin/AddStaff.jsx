@@ -92,22 +92,29 @@ const AddStaff = () => {
     getFaculty();
   }, []);
   return (
-    <div className="bg-emerald-100 h-screen">
-      <div className="bg-white p-4 ">
+    <div className="h-screen">
+      <div className="bg-white p-4 shadow-lg">
         <h1 className="text-3xl text-gray-700">
           Student Management System | Admin Dashboard
         </h1>
       </div>
-      <button
-        onClick={() => setShowModal(true)}
-        className="bg-gray-600 text-white cursor-pointer ml-2 p-2 rounded-lg mt-4"
-      >
-        Add Staff
-      </button>
 
       {/* Showing Staff */}
-      <div className="flex mt-2 p-2 gap-5 ">
-        {addedFacultylist?.map((faculty) => { 
+      <div className="flex justify-between items-center m-2">
+        <h1 className="text-4xl font-bold underline text-gray-700">
+          Faculty Members
+        </h1>
+        <button
+          onClick={() => setShowModal(true)}
+          className="bg-gray-600 text-white cursor-pointer p-2 rounded-lg"
+        >
+          Add Staff
+        </button>
+      </div>
+
+      {/* Faculty Card */}
+      <div className="flex mt-4 p-2 gap-5 ">
+        {addedFacultylist?.map((faculty) => {
           return (
             <Card key={faculty._id} customClass={"w-full bg-white"}>
               <h1 className="text-2xl font-bold">{faculty.userId.name}</h1>
@@ -123,7 +130,6 @@ const AddStaff = () => {
         })}
       </div>
 
-      
       {/* Modal for adding Staff */}
       <Modal
         open={showModel}
