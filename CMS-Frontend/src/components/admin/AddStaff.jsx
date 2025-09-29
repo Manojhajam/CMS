@@ -17,6 +17,7 @@ const AddStaff = () => {
   const [selectedMember, setSelectedMember] = useState("");
   const [courselist, setCourseList] = useState([]);
   const [addedFacultylist, setAddedFacultylist] = useState([]);
+  const [addedStudentlist, setAddedStudentlist] = useState([]);
 
   const getFaculty = async () => {
     setLoading(true);
@@ -29,7 +30,8 @@ const AddStaff = () => {
     if (error) return;
 
     if (response.success) {
-      setAddedFacultylist(response.data);
+      setAddedFacultylist(response.faculty);
+      setAddedStudentlist(response.student)
     }
   };
 
@@ -92,7 +94,7 @@ const AddStaff = () => {
     getFaculty();
   }, []);
   return (
-    <div className="h-screen">
+    <div className="min:h-screen">
       <div className="bg-white p-4 shadow-lg">
         <h1 className="text-3xl text-gray-700">
           Student Management System | Admin Dashboard
@@ -106,17 +108,20 @@ const AddStaff = () => {
         </h1>
         <button
           onClick={() => setShowModal(true)}
-          className="bg-gray-600 text-white cursor-pointer p-2 rounded-lg"
+          className="bg-green-400 text-white cursor-pointer p-2 rounded-lg"
         >
-          Add Staff
+          Add Faculty
         </button>
       </div>
 
       {/* Faculty Card */}
-      <div className="flex mt-4 p-2 gap-5 ">
+      <div className="flex mt-4 p-2 gap-5 basis-1/4">
         {addedFacultylist?.map((faculty) => {
           return (
-            <Card key={faculty._id} customClass={"w-full bg-white"}>
+            <Card
+              key={faculty._id}
+              customClass={"w-full bg-white basis-[calc(25%-1.25rem)"}
+            >
               <h1 className="text-2xl font-bold">{faculty.userId.name}</h1>
               <div>
                 Courses teaches:{" "}
@@ -125,6 +130,24 @@ const AddStaff = () => {
                   : "No courses assigned"}
               </div>
               <h3>Department: {faculty.department}</h3>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Student Card */}
+      <h1 className="text-4xl ml-2 font-bold underline text-gray-700">
+        Student 
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4 p-2 gap-5">
+        {addedStudentlist?.map((student) => {
+          return (
+            <Card key={student._id} customClass={"bg-white"}>
+              <h1 className="text-2xl font-bold">
+                {student?.userId?.name || "saroj"}
+              </h1>
+
+              <h3>Department: {student.department}</h3>
             </Card>
           );
         })}
@@ -206,7 +229,7 @@ const AddStaff = () => {
           <div className="flex flex-col">
             <button
               type="button"
-              className="bg-black text-white font-semibold hover:bg-gray-800 rounded-lg mt-2 flex self-end p-2"
+              className="bg-gray-500 text-white font-semibold hover:bg-green-500 rounded-lg mt-2 flex self-end p-2"
               onClick={handleAddStaff}
             >
               Submit

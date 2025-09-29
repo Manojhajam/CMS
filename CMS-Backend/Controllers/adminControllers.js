@@ -143,11 +143,13 @@ export const getMembers =async (req, res) => {
 
 export const getFaculty =async (req, res) => {
  try {
-   const faculty = await facultyModel.find().populate("courses").populate("userId")
+   const faculty = await facultyModel.find().populate("courses").populate("userId");
+   const student =await studentModel.find().populate("userId")
 
    res.status(200).json({
      success: true,
-     data: faculty
+     faculty: faculty,
+     student: student
    })
  } catch (error) {
    console.log(error)
