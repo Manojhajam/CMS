@@ -17,7 +17,7 @@ const AddStaff = () => {
   const [selectedMember, setSelectedMember] = useState("");
   const [courselist, setCourseList] = useState([]);
   const [addedFacultylist, setAddedFacultylist] = useState([]);
-  const [addedStudentlist, setAddedStudentlist] = useState([]);
+  
 
   const getFaculty = async () => {
     setLoading(true);
@@ -30,8 +30,7 @@ const AddStaff = () => {
     if (error) return;
 
     if (response.success) {
-      setAddedFacultylist(response.faculty);
-      setAddedStudentlist(response.student)
+      setAddedFacultylist(response.faculty); 
     }
   };
 
@@ -115,7 +114,7 @@ const AddStaff = () => {
       </div>
 
       {/* Faculty Card */}
-      <div className="flex mt-4 p-2 gap-5 basis-1/4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4 p-2 gap-5">
         {addedFacultylist?.map((faculty) => {
           return (
             <Card
@@ -135,23 +134,7 @@ const AddStaff = () => {
         })}
       </div>
 
-      {/* Student Card */}
-      <h1 className="text-4xl ml-2 font-bold underline text-gray-700">
-        Student 
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mt-4 p-2 gap-5">
-        {addedStudentlist?.map((student) => {
-          return (
-            <Card key={student._id} customClass={"bg-white"}>
-              <h1 className="text-2xl font-bold">
-                {student?.userId?.name || "saroj"}
-              </h1>
 
-              <h3>Department: {student.department}</h3>
-            </Card>
-          );
-        })}
-      </div>
 
       {/* Modal for adding Staff */}
       <Modal
