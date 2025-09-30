@@ -9,17 +9,12 @@ const studentschema = new Schema({
   
 
   courses: { type: ObjectId, ref: "Courses" },
-  attendance: [
+  attendance: 
     {
-      courseId: { type: ObjectId, ref: "Course" },
       presentDays: { type: Number, default: 0 },
       totalDays: { type: Number, default: 0 },
     },
-    ],
-    grades: [{
-        courseId: { type: ObjectId, ref: "Course" },
-        grade: String
-  }]
+    
 });
 
 

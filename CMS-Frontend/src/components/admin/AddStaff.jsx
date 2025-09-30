@@ -100,7 +100,7 @@ const AddStaff = () => {
         </h1>
       </div>
 
-      {/* Showing Staff */}
+      {/* Showing Faculty */}
       <div className="flex justify-between items-center m-2">
         <h1 className="text-4xl font-bold underline text-gray-700">
           Faculty Members
@@ -162,6 +162,8 @@ const AddStaff = () => {
               );
             })}
           </select>
+
+          {/* for employeeId */}
           <div className="flex flex-col gap-2">
             <label htmlFor="employeeId">Employee Id</label>
             <input
@@ -196,7 +198,7 @@ const AddStaff = () => {
             name="courses"
             value={selectedcourse}
             onChange={(e) => setselectedCourse([e.target.value])}
-            className="w-1/2 p-2 rounded-lg border mt-2"
+            className="p-2 rounded-lg border mt-2"
           >
             <option value="">Select Course</option>
             {courselist?.map((course) => {
