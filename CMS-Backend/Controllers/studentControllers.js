@@ -34,7 +34,7 @@ export const viewAttendance = async (req, res) => {
     // Get student profile linked to this user
     const student = await studentModel
       .findOne({ userId: User._id })
-      .populate("attendance.courseId");
+      .populate("attendance");
 
     if (!student) {
       return res.status(404).json({

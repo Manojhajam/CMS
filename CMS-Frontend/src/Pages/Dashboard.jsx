@@ -1,4 +1,9 @@
-import React, { useContext,useEffect,useState } from "react";
+// Student Dashboard
+
+
+
+
+import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/authContext";
 import { makeApiRequest } from "../lib/api";
 import DashboardCard from "../components/DashboardCard";
@@ -17,7 +22,7 @@ const Dashboard = () => {
         endpoint: "/students/attendance",
       });
 
-      console.log(response);
+      console.log("response",response);
 
       if (error) {
         setLoading(false);
@@ -55,13 +60,13 @@ const Dashboard = () => {
       <div className="flex gap-10 mt-5">
         <DashboardCard
           title={"Total attendance"}
-          data={attendance[0]?.totalDays}
+          data={attendance?.totalDays}
         />
-        <DashboardCard title={"Present"} data={attendance[0]?.presentDays} />
+        <DashboardCard title={"Present"} data={attendance?.presentDays} />
         <DashboardCard
           title={"Absent"}
           data={
-            (attendance[0]?.totalDays ?? 0) - (attendance[0]?.presentDays ?? 0)
+            (attendance?.totalDays ?? 0) - (attendance?.presentDays ?? 0)
           }
         />
       </div>
