@@ -12,6 +12,7 @@ import AdminDashboard from "../Pages/AdminDashboard";
 import FacultyDashboard from "../Pages/FacultyDashboard";
 import AddStaff from "../components/admin/AddStaff";
 import ManageStudent from "../components/admin/ManageStudent";
+import Attendance from "../Pages/Attendance.jsx";
 
 const PageRoutes = () => {
 
@@ -35,7 +36,8 @@ const PageRoutes = () => {
             }
           />
           <Route path="addstaff" element={user?.role === "admin"? (<AddStaff />) : ""} />
-          <Route path="managestudent" element={user?.role === "admin"? (<ManageStudent />) : ""} />
+          <Route path="managestudent" element={user?.role === "admin" ? (<ManageStudent />) : ""} />
+          <Route path="attendance" element={user?.role !== "student"? <Attendance/> : "" } />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>

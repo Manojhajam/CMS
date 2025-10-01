@@ -43,6 +43,14 @@ const Sidebar = () => {
             Manage Student
           </NavLink>}
 
+
+          {user?.role !== "student" && <NavLink 
+            className={navLinkClass}
+            to={"/sidebar/attendance"}
+          >
+            Attendance
+          </NavLink>}
+
           <NavLink 
             className={navLinkClass}
             to={"/sidebar/profile"}

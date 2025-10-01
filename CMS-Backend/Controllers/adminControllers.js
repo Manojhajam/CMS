@@ -88,6 +88,48 @@ export const getStudentDetails = async(req, res) =>{
   }
 }
 
+export const markAttendence = async (req, res) => {
+  try {
+    const { studentId, status } = req.body;
+
+    const student = await studentModel.findById(studentId);
+
+    if (!student) {
+      return res.status(403).json({
+        success: false,
+        message: "Student not found!",
+      });
+    }
+
+    // find the attendence record for this course
+
+    // const attendanceRecord = student.attendance.find(
+    //   (a) => a.courseId.toString() === courseId
+    // );
+
+    // Update attendance object
+    student.attendance.totalDays += 1;
+
+    if (status === "present") {
+      student.attendance.presentDays += 1;
+    } 
+
+    await student.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Attendance marked successfully",
+      data: student,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getDashboardData = async (req, res) => {
   try {
     const studentCount = await studentModel.countDocuments();

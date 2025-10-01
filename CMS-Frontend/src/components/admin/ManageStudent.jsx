@@ -22,7 +22,7 @@ const ManageStudent = () => {
         const { response, error } = await makeApiRequest({
           endpoint: "/admin/faculty",
         });
-        // console.log(response);
+        console.log(response);
         setLoading(false);
     
         if (error) return;

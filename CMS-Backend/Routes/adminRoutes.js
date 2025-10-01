@@ -7,8 +7,9 @@ import {
   getFaculty,
   getMembers,
   getStudentDetails,
+  markAttendence,
 } from "../Controllers/adminControllers.js";
-import { adminLevelPermissions } from "../middleware/checkPermmission.js";
+import { adminLevelPermissions, checkFacultyAdminLevelPermissions } from "../middleware/checkPermmission.js";
 import { updateUser } from "../Controllers/userControllers.js";
 
 const adminRouter = express.Router();
@@ -24,6 +25,10 @@ adminRouter.route("/members").get(checkAuthorization,adminLevelPermissions, getM
 adminRouter
   .route("/faculty")
   .post(checkAuthorization, adminLevelPermissions, createNewFaculty)
-  .get(checkAuthorization, adminLevelPermissions, getFaculty)
+  .get(checkAuthorization, checkFacultyAdminLevelPermissions, getFaculty)
+
+  adminRouter.route("/attendance").put(checkAuthorization, checkFacultyAdminLevelPermissions, markAttendence)
+
+
 
 export default adminRouter;

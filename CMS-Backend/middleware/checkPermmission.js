@@ -44,7 +44,7 @@ export const checkFacultyAdminLevelPermissions = (req, res, next) => {
   try {
     const user = req.user;
 
-    if (user.role !== "Staff" && user.role !== "Admin") {
+    if (user.role !== "faculty" && user.role !== "admin") {
       return res.json({
         success: false,
         message: "You don`t have authorization  to perform this action!",
