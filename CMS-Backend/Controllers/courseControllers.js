@@ -26,7 +26,13 @@ export const createCourse = async (req, res) => {
 
 export const getCourse = async (req, res) => {
   try {
-    const getCourse = await courseModel.find().populate("students")
+    const getCourse = await courseModel.find().populate({
+      path: "students",
+      populate: {
+        path: "userId", // populate inside Student
+        model: "User",
+      },
+    });
 
     res.status(200).json({
       success: true,
