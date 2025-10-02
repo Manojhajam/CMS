@@ -19,6 +19,9 @@ const Courses = () => {
   const [department, setDepartment] = useState("");
 
 
+  const isFormValid = name && code && department && selectedStudent.length > 0;
+
+
   const getCourse = async () => {
     try {
       const { response, error } = await makeApiRequest({
@@ -154,8 +157,6 @@ const Courses = () => {
         })}
       </div>
 
-      
-
       {/* Modal for create Courses */}
       <Modal
         open={showModel}
@@ -241,13 +242,20 @@ const Courses = () => {
               ))}
             </div>
           </div>
-
-          <button
-            type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4"
-          >
-            Save Course
-          </button>
+          <div className="flex flex-col">
+            <button
+              type="submit"
+              disabled={!isFormValid}
+              className={`px-4 py-2 rounded-lg mt-4 text-white self-end
+    ${
+      isFormValid
+        ? "bg-green-500 hover:bg-green-600 cursor-pointer"
+        : "bg-gray-400 cursor-not-allowed"
+    }`}
+            >
+              Save Course
+            </button>
+          </div>
         </form>
       </Modal>
     </div>
