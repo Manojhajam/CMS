@@ -5,7 +5,7 @@ const courseSchema = new Schema({
   name: String,
   code: String,
   department: String,
-  facultyId: { type: ObjectId, ref: "Faculty" },
+  // facultyId: { type: ObjectId, ref: "Faculty" },
   students: [{ type: ObjectId, ref: "Student" }],
 });
 

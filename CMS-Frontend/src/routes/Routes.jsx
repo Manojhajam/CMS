@@ -36,9 +36,18 @@ const PageRoutes = () => {
               )
             }
           />
-          <Route path="addstaff" element={user?.role === "admin"? (<AddStaff />) : ""} />
-          <Route path="managestudent" element={user?.role === "admin" ? (<ManageStudent />) : ""} />
-          <Route path="attendance" element={user?.role !== "student"? <Attendance/> : "" } />
+          <Route
+            path="addstaff"
+            element={user?.role === "admin" ? <AddStaff /> : ""}
+          />
+          <Route
+            path="managestudent"
+            element={user?.role === "admin" ? <ManageStudent /> : ""}
+          />
+          <Route
+            path="attendance"
+            element={user?.role !== "student" ? <Attendance /> : ""}
+          />
           <Route path="courses" element={<Courses />} />
           <Route path="profile" element={<Profile />} />
         </Route>

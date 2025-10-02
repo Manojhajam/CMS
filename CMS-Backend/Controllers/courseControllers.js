@@ -26,7 +26,7 @@ export const createCourse = async (req, res) => {
 
 export const getCourse = async (req, res) => {
   try {
-    const getCourse = await courseModel.find();
+    const getCourse = await courseModel.find().populate("students")
 
     res.status(200).json({
       success: true,

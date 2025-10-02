@@ -50,7 +50,7 @@ const Sidebar = () => {
           >
             Attendance
           </NavLink>}
-
+            
           <NavLink 
             className={navLinkClass}
             to={"/sidebar/courses"}
