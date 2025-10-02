@@ -8,7 +8,8 @@ import { AuthContext } from '../context/AuthContext';
 
 const Attendance = () => {
     const [Studentlist, setStudentlist] = useState([]);
-    const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState("");
+  const {user} = useContext(AuthContext)
     
     
           const getStudent = async () => {
@@ -54,55 +55,68 @@ const Attendance = () => {
         getStudent();
     },[])
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Mark Attendance</h1>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-3 py-2">Name</th>
-            <th className="border border-gray-300 px-3 py-2">Roll No</th>
-            <th className="border border-gray-300 px-3 py-2">Present Days</th>
-            <th className="border border-gray-300 px-3 py-2">Total Days</th>
-            <th className="border border-gray-300 px-3 py-2">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Studentlist?.map((student) => (
-            <tr key={student._id}>
-              <td className="border border-gray-300 px-3 py-2 font-semibold \">
-                {student.userId?.name || "N/A"}
-              </td>
-              <td className="border border-gray-300 px-3 py-2 text-center">
-                {student.rollNumber}
-              </td>
-              <td className="border border-gray-300 px-3 py-2 text-center">
-                {student.attendance.presentDays}
-              </td>
-              <td className="border border-gray-300 px-3 py-2 text-center">
-                {student.attendance.totalDays}
-              </td>
-              <td className="border border-gray-300 px-3 py-2 flex gap-2 items-center justify-center">
-                <button
-                  className="bg-green-500 text-white px-3 py-1 rounded"
-                  onClick={() => {
-                    markAttendance(student._id, "present");
-                  }}
-                >
-                  Present
-                </button>
-                <button
-                  className="bg-green-500 text-white px-3 py-1 rounded"
-                  onClick={() => {
-                    markAttendance(student._id, "absent");
-                  }}
-                >
-                  Absent
-                </button>
-              </td>
+    <div>
+      <div className="bg-white p-4 shadow-lg">
+        {user?.role === "admin" ? (
+          <h1 className="text-3xl text-gray-700">
+            Student Management System | Admin Dashboard
+          </h1>
+        ) : (
+          <h1 className="text-3xl text-gray-700">
+            Student Management System | Faculty Dashboard
+          </h1>
+        )}
+      </div>
+      <div className="p-4">
+        <h1 className="text-2xl font-bold mb-4">Mark Attendance</h1>
+        <table className="w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 px-3 py-2">Name</th>
+              <th className="border border-gray-300 px-3 py-2">Roll No</th>
+              <th className="border border-gray-300 px-3 py-2">Present Days</th>
+              <th className="border border-gray-300 px-3 py-2">Total Days</th>
+              <th className="border border-gray-300 px-3 py-2">Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {Studentlist?.map((student) => (
+              <tr key={student._id}>
+                <td className="border border-gray-300 px-3 py-2 font-semibold \">
+                  {student.userId?.name || "N/A"}
+                </td>
+                <td className="border border-gray-300 px-3 py-2 text-center">
+                  {student.rollNumber}
+                </td>
+                <td className="border border-gray-300 px-3 py-2 text-center">
+                  {student.attendance.presentDays}
+                </td>
+                <td className="border border-gray-300 px-3 py-2 text-center">
+                  {student.attendance.totalDays}
+                </td>
+                <td className="border border-gray-300 px-3 py-2 flex gap-2 items-center justify-center">
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded"
+                    onClick={() => {
+                      markAttendance(student._id, "present");
+                    }}
+                  >
+                    Present
+                  </button>
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded"
+                    onClick={() => {
+                      markAttendance(student._id, "absent");
+                    }}
+                  >
+                    Absent
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

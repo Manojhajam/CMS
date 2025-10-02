@@ -53,6 +53,12 @@ const Sidebar = () => {
 
           <NavLink 
             className={navLinkClass}
+            to={"/sidebar/courses"}
+          >
+            Courses
+          </NavLink>
+          <NavLink 
+            className={navLinkClass}
             to={"/sidebar/profile"}
           >
             Profile

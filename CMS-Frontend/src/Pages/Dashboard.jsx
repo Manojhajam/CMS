@@ -4,7 +4,7 @@
 
 
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../context/AuthContext";
 import { makeApiRequest } from "../lib/api";
 import DashboardCard from "../components/DashboardCard";
 

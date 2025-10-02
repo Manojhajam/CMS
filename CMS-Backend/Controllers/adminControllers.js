@@ -23,7 +23,11 @@ export const createNewStudent = async (req, res) => {
       });
     }
 
+    
+
     const student = await studentModel.create(reqBody);
+
+    
 
     const studentData = {
       name: student.userId,

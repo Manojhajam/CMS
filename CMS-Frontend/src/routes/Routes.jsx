@@ -7,12 +7,13 @@ import Dashboard from "../Pages/Dashboard";
 import Layout from "./Layout";
 import Profile from "../Pages/Profile";
 import ProtectedRoutes from "./ProtectedRoutes";
-import { AuthContext } from "../context/authContext.jsx";
+import { AuthContext } from "../context/AuthContext.jsx";
 import AdminDashboard from "../Pages/AdminDashboard";
 import FacultyDashboard from "../Pages/FacultyDashboard";
 import AddStaff from "../components/admin/AddStaff";
 import ManageStudent from "../components/admin/ManageStudent";
 import Attendance from "../Pages/Attendance.jsx";
+import Courses from "../Pages/Courses.jsx";
 
 const PageRoutes = () => {
 
@@ -38,6 +39,7 @@ const PageRoutes = () => {
           <Route path="addstaff" element={user?.role === "admin"? (<AddStaff />) : ""} />
           <Route path="managestudent" element={user?.role === "admin" ? (<ManageStudent />) : ""} />
           <Route path="attendance" element={user?.role !== "student"? <Attendance/> : "" } />
+          <Route path="courses" element={<Courses />} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>
