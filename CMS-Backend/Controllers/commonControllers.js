@@ -7,7 +7,7 @@ export const courseDetails = async (req, res) => {
     const course = await courseModel
       .findById(courseId)
       .populate("students", "rollNumber department userId") // populate student docs
-      .populate("facultyId", "name department userId"); // show faculty info
+      // .populate("facultyId", "name department userId"); // show faculty info
 
     if (!course) {
       return res.status(404).json({

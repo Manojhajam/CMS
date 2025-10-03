@@ -3,7 +3,7 @@ import { courseModel } from "../Model/coureseModel.js";
 import { materialModel } from "../Model/materialsModel.js";
 import { studentModel } from "../Model/studentModel.js";
 import { userModel } from "../Model/userModel.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import uploadOnCloudinary from "../utils/cloudinary.js"
 
 export const createCourse = async (req, res) => {
   try {

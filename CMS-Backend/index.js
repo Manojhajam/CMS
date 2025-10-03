@@ -26,6 +26,8 @@ app.use(
 
 dotenv.config();
 
+
+
 app.use("/api/auth", userRouter)
 app.use("/api/courses", courseRouter);
 app.use("/api/common", commonRoutes);
