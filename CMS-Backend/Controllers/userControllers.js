@@ -134,17 +134,17 @@ export const updateUser = async (req, res) => {
       });
     }
 
-    // ❌ Prevent password update (but continue with other fields)
-    // if (reqBody.password) {
-    //   delete reqBody.password;
-    // }
-
+    // Prevent password update (but continue with other fields)
     if (reqBody.password) {
-      return res.status(403).json({
-        success: false,
-        message: "you cant update password",
-      });
+      delete reqBody.password;
     }
+
+    // if (reqBody.password) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "you cant update password",
+    //   });
+    // }
 
     const updatedUser = await userModel.findByIdAndUpdate(userId, reqBody, {
       new: true,
