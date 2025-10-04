@@ -191,6 +191,71 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+
+export const changePassword = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const { newPassword, oldPassword } = req?.body;
+
+    if (!newPassword || !oldPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all the fields",
+      });
+    }
+
+    const foundUser = await userModel.findById(userId);
+
+    if (!foundUser) {
+      return res.status(400).json({
+        success: false,
+        message: `User with ${userId} not found!`,
+      });
+    }
+    const passwordMatched = await foundUser.isPasswordValid(oldPassword);
+    if (!passwordMatched) {
+      return res.status(400).json({
+        success: false,
+        message: "Old Password doesnot matched",
+      });
+    }
+    if (
+      foundUser._id.toString() !== req.user._id.toString() &&
+      !["admin"].includes(req.user.role)
+    ) {
+      return res.status(403).json({
+        success: false,
+        message: "You cannot update the password",
+      });
+    }
+
+    foundUser.password = newPassword;
+
+    foundUser.save();
+
+    const userData = {
+      name: foundUser.name,
+      role: foundUser.role,
+      email: foundUser.email,
+      _id: foundUser._id,
+    };
+
+    res.status(200).json({
+      success: true,
+      message: "Password Updated Successfully",
+      data: userData,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getProfile = async (req, res) => {
   try {
     const user = req.user.toObject(); //.toObject() converts the Mongoose document into a plain JavaScript object

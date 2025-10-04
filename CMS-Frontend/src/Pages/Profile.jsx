@@ -29,6 +29,24 @@ const Profile = () => {
        setEditedUserInfo(null);
      }
   }
+
+    const handleChangePassword = async () => {
+      const { response, error } = await makeApiRequest({
+        endpoint: `/auth/${user?._id}`,
+        method: "PATCH",
+        body: passwordInfo,
+      });
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      if (response.success) {
+        setChangePasswordMode(false);
+        setPasswordInfo(null);
+      }
+    };
   
   return (
     <div>
@@ -45,6 +63,7 @@ const Profile = () => {
               onClick={() => {
                 setEditMode(!editMode);
                 setEditedUserInfo(user);
+                setChangePasswordMode(false);
               }}
               className="hover:bg-green-100 rounded-lg p-2 text-green-600 cursor-pointer"
             >
@@ -73,6 +92,7 @@ const Profile = () => {
             <button
               onClick={() => {
                 setChangePasswordMode(true);
+                setEditMode(false);
               }}
               className="p-2 bg-red-400 hover:bg-red-400/90 rounded-lg text-white cursor-pointer"
             >
@@ -126,6 +146,56 @@ const Profile = () => {
                   email: value,
                 });
               }}
+            />
+          </Card>
+        )}
+
+        {/* Change Password */}
+
+        {changePasswordMode && (
+          <Card customClass="space-y-4 bg-white shadow">
+            <div className="flex justify-between items-center border-b pb-1">
+              <h6 className="text-lg font-semibold">Edit Your Password</h6>
+              <div className="flex gap-8">
+                <button
+                  onClick={handleChangePassword}
+                  className="hover:bg-green-100 rounded-lg p-2 text-green-600 cursor-pointer"
+                >
+                  <FiCheck size={20} />
+                </button>
+                <button
+                  onClick={() => {
+                    setPasswordInfo(null);
+                    setChangePasswordMode(false);
+                  }}
+                  className="hover:bg-red-100 rounded-lg p-2 text-red-600 cursor-pointer"
+                >
+                  <FiX size={20} />
+                </button>
+              </div>
+            </div>
+
+            <Input
+              label={"Old Password"}
+              value={passwordInfo?.oldPassword}
+              onChange={(value) => {
+                setPasswordInfo({
+                  ...passwordInfo,
+                  oldPassword: value,
+                });
+              }}
+              type="password"
+            />
+            <Input
+              label={"New Password"}
+              value={passwordInfo?.newPassword}
+              onChange={(value) => {
+                setPasswordInfo({
+                  ...passwordInfo,
+                  newPassword: value,
+                });
+              }}
+              type="password"
             />
           </Card>
         )}
