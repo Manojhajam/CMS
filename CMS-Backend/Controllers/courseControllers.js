@@ -98,6 +98,34 @@ export const getCourse = async (req, res) => {
 //   }
 // };
 
+export const updateCourse = async (req, res) => {
+  try {
+    const {courseId} = req.params;
+    const reqBody = req.body;
+
+    const foundCourse = await courseModel.findById(courseId)
+    if (!foundCourse) {
+      return res.status(403).json({
+        success: false,
+        message: "Course not found!"
+      })
+    }
+
+    const Updatedcourse = await courseModel.findByIdAndUpdate(courseId, reqBody, { new: true });
+
+    return res.status(200).json({
+      success: true,
+      data: Updatedcourse
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
 export const studyMaterial = async (req, res) => {
   try {
     const { courseId } = req.params; // course id
