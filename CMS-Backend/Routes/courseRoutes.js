@@ -11,7 +11,7 @@ courseRouter.route("/").post(checkAuthorization, adminLevelPermissions, createCo
 
 // courseRouter.route("/:courseId/attendance").put(checkAuthorization, checkFacultyLevelPermissions, markAttendence)
 
-courseRouter.route("/:courseId").put(checkAuthorization, adminLevelPermissions, updateCourse);
+courseRouter.route("/:courseId").put(checkAuthorization,adminLevelPermissions,updateCourse);
 courseRouter.route("/:courseId/materials").post(checkAuthorization,upload.single("file"), studyMaterial)
 
 export default courseRouter;

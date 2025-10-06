@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { makeApiRequest } from "../lib/api";
 import Card from "../components/common/Card";
 import Modal from "../components/common/Modal";
+import { FiEdit, FiEdit2 } from "react-icons/fi";
+import EditBookModel from "../components/common/EditBookModel";
 
 const Courses = () => {
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,11 @@ const Courses = () => {
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [department, setDepartment] = useState("");
+
+  const [tobeEditedcourse, settobeeditedcourse] = useState(null)
+  const [showeditCourseModel, setShoweditCourseModel] = useState(false)
+  // console.log(courseList)
+  
 
   const isFormValid = name && code && department && selectedStudent.length > 0;
 
@@ -75,6 +82,13 @@ const Courses = () => {
     }
   };
 
+
+  const handleEditBook = (course) => {
+    settobeeditedcourse(course)
+    setShoweditCourseModel(true)
+  }
+  
+  
   useEffect(() => {
     getCourse();
     if (user?.role !== "student") getStudent();
@@ -121,9 +135,15 @@ const Courses = () => {
             >
               {/* Course Info */}
               <div className="mb-3 border-b pb-2">
-                <h2 className="text-lg font-bold text-gray-800">
-                  {course?.name}
-                </h2>
+                <div className="flex justify-between"> 
+                  <h2 className="text-lg font-bold text-gray-800">
+                    {course?.name}
+                  </h2>
+                  <div onClick={()=>handleEditBook(course)}
+                    className="hover:bg-green-100 p-1 rounded-lg text-green-500">
+                    <FiEdit2 size={14} />
+                  </div>
+                </div>
                 <p className="text-sm text-gray-500">Code: {course?.code}</p>
                 <p className="text-sm text-gray-500">
                   Department: {course?.department || "N/A"}
@@ -255,6 +275,13 @@ const Courses = () => {
           </div>
         </form>
       </Modal>
+
+      <EditBookModel tobeEditedcourse={tobeEditedcourse} open={showeditCourseModel} onClose={() => {
+        setShoweditCourseModel(false);
+        settobeeditedcourse("")
+      }} addedStudentlist={addedStudentlist}
+        onCourseUpdated={getCourse}
+    />
     </div>
   );
 };

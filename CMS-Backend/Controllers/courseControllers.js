@@ -115,7 +115,8 @@ export const updateCourse = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      data: Updatedcourse
+      data: Updatedcourse,
+      message: "Course updated successfully!!"
     })
   } catch (error) {
     console.log(error);
