@@ -3,51 +3,60 @@ import React, { useEffect, useState } from 'react'
 import Modal from './Modal'
 import { makeApiRequest } from '../../lib/api';
 
-const EditBookModel = ({ tobeEditedcourse, open, onClose,addedStudentlist,getCourse }) => {
-    const [name, setName] = useState("");
-    const [code, setCode] = useState("");
-    const [department, setDepartment] = useState("");
-    const [selectedStudent, setSelectedStudent] = useState([]);
+const EditBookModel = ({
+  tobeEditedcourse,
+  open,
+  onClose,
+  addedStudentlist,
+  onCourseUpdated,
+}) => {
+  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
+  const [department, setDepartment] = useState("");
+  const [selectedStudent, setSelectedStudent] = useState([]);
   //  const [showModal, setShowModal] = useState(open)
-  console.log(tobeEditedcourse)
-  
-    useEffect(() => {
-      if (tobeEditedcourse) {
-        setName(tobeEditedcourse.name || "");
-        setCode(tobeEditedcourse.code || "");
-        setDepartment(tobeEditedcourse.department || "");
-        setSelectedStudent(tobeEditedcourse.students?.map((s) => s._id) || []);
-      }
-    }, [tobeEditedcourse]);
-    
-    const handleEditCourse = async () => {
-        const { response, error } = await makeApiRequest({
-            endpoint: `/courses/${tobeEditedcourse._id}`,
-          method: "PUT",
-          body: {
-            name,
-            code,
-            department,
-            students: selectedStudent
-            }
-        })
-        if (error) {
-            console.log(error)
-        }
-      if (response.success) {
-        getCourse();
-           onClose();
-        }
-     }
-    
-    const isFormValid = name && code && department && selectedStudent.length > 0;
+  // console.log(tobeEditedcourse)
+
+  useEffect(() => {
+    if (tobeEditedcourse) {
+      setName(tobeEditedcourse.name || "");
+      setCode(tobeEditedcourse.code || "");
+      setDepartment(tobeEditedcourse.department || "");
+      setSelectedStudent(tobeEditedcourse.students?.map((s) => s._id) || []);
+    }
+  }, [tobeEditedcourse]);
+
+  const handleEditCourse = async () => {
+    const { response, error } = await makeApiRequest({
+      endpoint: `/courses/${tobeEditedcourse._id}`,
+      method: "PUT",
+      body: {
+        name,
+        code,
+        department,
+        students: selectedStudent,
+      },
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    if (response.success) {
+      onCourseUpdated();
+      onClose();
+    }
+  };
+
+  const isFormValid = name && code && department && selectedStudent.length > 0;
   return (
     <div>
-      <Modal open={open} onClose={onClose} title='Edit Course'>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          handleEditCourse();
-        }}>
+      <Modal open={open} onClose={onClose} title="Edit Course">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleEditCourse();
+          }}
+        >
           {/* name */}
           <div className="flex flex-col gap-2">
             <label htmlFor="name">Name</label>
@@ -133,7 +142,7 @@ const EditBookModel = ({ tobeEditedcourse, open, onClose,addedStudentlist,getCou
       isFormValid
         ? "bg-green-500 hover:bg-green-600 cursor-pointer"
         : "bg-gray-400 cursor-not-allowed"
-                }
+    }
     `}
             >
               Save Course
@@ -143,6 +152,6 @@ const EditBookModel = ({ tobeEditedcourse, open, onClose,addedStudentlist,getCou
       </Modal>
     </div>
   );
-}
+};
 
 export default EditBookModel

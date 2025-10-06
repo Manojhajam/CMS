@@ -139,10 +139,10 @@ const Courses = () => {
                   <h2 className="text-lg font-bold text-gray-800">
                     {course?.name}
                   </h2>
-                  <div onClick={()=>handleEditBook(course)}
+                  {user?.role === "admin" && <div onClick={()=>handleEditBook(course)}
                     className="hover:bg-green-100 p-1 rounded-lg text-green-500">
                     <FiEdit2 size={14} />
-                  </div>
+                  </div>}
                 </div>
                 <p className="text-sm text-gray-500">Code: {course?.code}</p>
                 <p className="text-sm text-gray-500">
