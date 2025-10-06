@@ -21,7 +21,8 @@ adminRouter
 adminRouter
   .route("/countdata")
   .get(checkAuthorization, adminLevelPermissions, getDashboardData);
-adminRouter.route("/members").get(checkAuthorization,adminLevelPermissions, getMembers)
+adminRouter.route("/members").get(checkAuthorization,
+  checkFacultyAdminLevelPermissions,getMembers)
 adminRouter
   .route("/faculty")
   .post(checkAuthorization, adminLevelPermissions, createNewFaculty)

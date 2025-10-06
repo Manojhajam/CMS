@@ -8,19 +8,17 @@ import Card from "../components/common/Card";
 import Modal from "../components/common/Modal";
 
 const Courses = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const { user } = useContext(AuthContext);
   const [courseList, setCourseList] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState([]);
-  const [addedStudentlist, setAddedStudentlist] = useState([])
+  const [addedStudentlist, setAddedStudentlist] = useState([]);
   const [showModel, setShowModal] = useState(false);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [department, setDepartment] = useState("");
 
-
   const isFormValid = name && code && department && selectedStudent.length > 0;
-
 
   const getCourse = async () => {
     try {
@@ -28,7 +26,7 @@ const Courses = () => {
         endpoint: "/courses",
       });
 
-      console.log("courses", response.data);
+      // console.log("courses", response.data);
 
       if (error) {
         console.log(error);
@@ -40,48 +38,47 @@ const Courses = () => {
     } catch (error) {
       console.log(error);
     }
-    };
-    
-     const getStudent = async () => {
-       setLoading(true);
-       const { response, error } = await makeApiRequest({
-         endpoint: "/admin/faculty",
-       });
-       console.log("student", response);
-       setLoading(false);
-
-       if (error) return;
-
-       if (response.success) {
-         setAddedStudentlist(response.student);
-       }
   };
-  
+
+  const getStudent = async () => {
+    setLoading(true);
+    const { response, error } = await makeApiRequest({
+      endpoint: "/admin/faculty",
+    });
+    // console.log("student", response);
+    setLoading(false);
+
+    if (error) return;
+
+    if (response.success) {
+      setAddedStudentlist(response.student);
+    }
+  };
+
   const handleAddCourse = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const { response, error } = await makeApiRequest({
-    endpoint: "/courses",
-    method: "POST",
-    body: {
-      name,
-      code,
-      department,
-      students: selectedStudent,  // 👈 array of ObjectIds
-    },
-  });
+    const { response, error } = await makeApiRequest({
+      endpoint: "/courses",
+      method: "POST",
+      body: {
+        name,
+        code,
+        department,
+        students: selectedStudent, // 👈 array of ObjectIds
+      },
+    });
 
-  if (response?.success) {
-    setShowModal(false);
-    getCourse(); // refresh list
-  }
-};
+    if (response?.success) {
+      setShowModal(false);
+      getCourse(); // refresh list
+    }
+  };
 
-    
   useEffect(() => {
-      getCourse();
-    getStudent();
-  }, []);
+    getCourse();
+    if (user?.role !== "student") getStudent();
+  }, [user]);
 
   return (
     <div className="min-h-screen">

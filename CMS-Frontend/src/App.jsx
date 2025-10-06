@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter } from "react-router";
-import AuthProvider from "./context/authContext";
+import AuthProvider from "./context/AuthContext";
 import MemberProvider from "./context/memberContext";
 import PageRoutes from "./routes/Routes";
 import { ToastContainer } from "react-toastify";
