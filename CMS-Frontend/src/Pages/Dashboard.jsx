@@ -52,11 +52,10 @@ const Dashboard = () => {
   return (
     <>
       <div className="bg-white p-4 shadow-lg">
-
-      <h1 className="text-3xl text-gray-700">
-        Student Management System | Student Dashboard
-      </h1>
-    </div>
+        <h1 className="text-3xl text-gray-700">
+          College Management System | Student Dashboard
+        </h1>
+      </div>
       <div className="p-4">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <p className="mt-2 text-lg">

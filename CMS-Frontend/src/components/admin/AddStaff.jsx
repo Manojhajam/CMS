@@ -96,7 +96,7 @@ const AddStaff = () => {
     <div className="min:h-screen">
       <div className="bg-white p-4 shadow-lg">
         <h1 className="text-3xl text-gray-700">
-          Student Management System | Admin Dashboard
+          College Management System | Admin Dashboard
         </h1>
       </div>
 
@@ -133,8 +133,6 @@ const AddStaff = () => {
           );
         })}
       </div>
-
-
 
       {/* Modal for adding Staff */}
       <Modal

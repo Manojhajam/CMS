@@ -38,7 +38,7 @@ const AdminDashboard = () => {
     <div className="bg-emerald-100 h-screen">
       <div className="bg-white p-4 ">
         <h1 className="text-3xl text-gray-700">
-          Student Management System | Admin Dashboard
+          College Management System | Admin Dashboard
         </h1>
       </div>
       <div className="flex gap-5 mt-8 mx-2">

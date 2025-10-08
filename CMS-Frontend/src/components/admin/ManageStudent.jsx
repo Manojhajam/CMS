@@ -79,7 +79,10 @@ const ManageStudent = () => {
                 setSelectedStudent("");
                 setRollNumber("");
                 setDepartment("");
-                selectedcourse("")
+              setselectedCourse("")
+              getStudent();
+              console.log("Student list refreshed");
+
             }
         }
         catch (error) {
@@ -94,7 +97,7 @@ const ManageStudent = () => {
     <div>
       <div className="bg-white p-4 shadow-lg">
         <h1 className="text-3xl text-gray-700">
-          Student Management System | Admin Dashboard
+          College Management System | Admin Dashboard
         </h1>
       </div>
 
@@ -133,7 +136,6 @@ const ManageStudent = () => {
         title="Add Student"
       >
         <form>
-
           {/* select Studenty*/}
           <select
             name="userId"
@@ -197,10 +199,7 @@ const ManageStudent = () => {
                 </option>
               );
             })}
-              </select>
-                  
-
-
+          </select>
 
           <br />
           <div className="flex flex-col">

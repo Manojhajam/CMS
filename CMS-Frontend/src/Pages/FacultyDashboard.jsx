@@ -23,7 +23,7 @@ const FacultyDashboard = () => {
     <div>
       <div className="bg-white p-4 shadow-lg">
         <h1 className="text-3xl text-gray-700">
-          Student Management System | Faculty Dashboard
+          College Management System | Faculty Dashboard
         </h1>
       </div>
       <div className="p-4">

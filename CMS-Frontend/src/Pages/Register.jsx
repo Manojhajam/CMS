@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
 
@@ -30,12 +31,11 @@ const Register = () => {
       console.log("API", responseData)
 
       if (responseData.success) {
-        alert("user id created!!");
         setName(""); // ✅ clear name input
         setEmail(""); // ✅ clear email input
         setPassword(""); // ✅ clear password input
         navigate("/login");
-        alert("Sign Up Successful!")
+        toast.success("Signup successful!!")
       }
        else {
       alert("Registration failed" || responseData.message);

@@ -99,15 +99,15 @@ const Courses = () => {
       <div className="bg-white p-4 shadow-lg">
         {user?.role === "admin" ? (
           <h1 className="text-3xl text-gray-700">
-            Student Management System | Admin Dashboard
+            College Management System | Admin Dashboard
           </h1>
         ) : user?.role === "faculty" ? (
           <h1 className="text-3xl text-gray-700">
-            Student Management System | Faculty Dashboard
+            College Management System | Faculty Dashboard
           </h1>
         ) : (
           <h1 className="text-3xl text-gray-700">
-            Student Management System | Faculty Dashboard
+            College Management System | Faculty Dashboard
           </h1>
         )}
       </div>
@@ -135,14 +135,18 @@ const Courses = () => {
             >
               {/* Course Info */}
               <div className="mb-3 border-b pb-2">
-                <div className="flex justify-between"> 
+                <div className="flex justify-between">
                   <h2 className="text-lg font-bold text-gray-800">
                     {course?.name}
                   </h2>
-                  {user?.role === "admin" && <div onClick={()=>handleEditBook(course)}
-                    className="hover:bg-green-100 p-1 rounded-lg text-green-500">
-                    <FiEdit2 size={14} />
-                  </div>}
+                  {user?.role === "admin" && (
+                    <div
+                      onClick={() => handleEditBook(course)}
+                      className="hover:bg-green-100 p-1 rounded-lg text-green-500"
+                    >
+                      <FiEdit2 size={14} />
+                    </div>
+                  )}
                 </div>
                 <p className="text-sm text-gray-500">Code: {course?.code}</p>
                 <p className="text-sm text-gray-500">
@@ -276,12 +280,16 @@ const Courses = () => {
         </form>
       </Modal>
 
-      <EditBookModel tobeEditedcourse={tobeEditedcourse} open={showeditCourseModel} onClose={() => {
-        setShoweditCourseModel(false);
-        settobeeditedcourse("")
-      }} addedStudentlist={addedStudentlist}
+      <EditBookModel
+        tobeEditedcourse={tobeEditedcourse}
+        open={showeditCourseModel}
+        onClose={() => {
+          setShoweditCourseModel(false);
+          settobeeditedcourse("");
+        }}
+        addedStudentlist={addedStudentlist}
         onCourseUpdated={getCourse}
-    />
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./authContext";
 import { makeApiRequest } from "../lib/api";
 import Loader from "../components/common/Loader";
 
@@ -29,9 +29,9 @@ const MemberProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (user?.role == "student") {
+    if (user?.role == "Member") {
       setMembers([]);
-    } else if (user?.role !== "student") {
+    } else if (user) {
       fetchMembers();
     } else {
       setLoading(false);

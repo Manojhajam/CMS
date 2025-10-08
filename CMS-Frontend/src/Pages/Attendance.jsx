@@ -59,11 +59,11 @@ const Attendance = () => {
       <div className="bg-white p-4 shadow-lg">
         {user?.role === "admin" ? (
           <h1 className="text-3xl text-gray-700">
-            Student Management System | Admin Dashboard
+            College Management System | Admin Dashboard
           </h1>
         ) : (
           <h1 className="text-3xl text-gray-700">
-            Student Management System | Faculty Dashboard
+            College Management System | Faculty Dashboard
           </h1>
         )}
       </div>
