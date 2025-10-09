@@ -6,7 +6,8 @@ export const makeApiRequest = async ({ endpoint, method = "GET", body }) => {
       method,
       headers: {
         "Content-Type": "application/json",
-        token,
+        // token,
+        Authorization: `Bearer ${token}`
       },
       body: body ? JSON.stringify(body) : undefined,  
       credentials: "include",

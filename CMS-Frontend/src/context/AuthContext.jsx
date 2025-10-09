@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
                 method: "GET",
                 headers: {
                     "Content-type": "application/json",
-                    token: token
+                   Authorization: `Bearer ${token}`
                 }
             })
 

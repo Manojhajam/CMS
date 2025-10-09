@@ -14,7 +14,7 @@ const MemberProvider = ({ children }) => {
     const { response, error } =await makeApiRequest({
       endpoint: "/admin/members",
     });
-    // console.log(response);
+    console.log(response);  
 
     if (error) {
         console.log(error);
@@ -31,7 +31,7 @@ const MemberProvider = ({ children }) => {
   useEffect(() => {
     if (user?.role == "Member") {
       setMembers([]);
-    } else if (user) {
+    } else if (user?.role === "admin") {
       fetchMembers();
     } else {
       setLoading(false);
