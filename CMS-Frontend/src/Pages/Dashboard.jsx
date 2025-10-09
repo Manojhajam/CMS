@@ -1,12 +1,11 @@
 // Student Dashboard
 
 
-
-
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/authContext";
 import { makeApiRequest } from "../lib/api";
 import DashboardCard from "../components/DashboardCard";
+import AttendancePieChart from "../components/common/AttendancePieChart";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -57,21 +56,33 @@ const Dashboard = () => {
         </h1>
       </div>
       <div className="p-4">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="mt-2 text-lg">
-          Welcome, <span className="font-semibold">{user.name}</span> 🎉
-        </p>
-        <p>Email: {user.email}</p>
+        <h1 className="text-4xl font-bold underline text-gray-700">
+          Dashboard
+        </h1>
 
         <div className="flex gap-10 mt-5">
           <DashboardCard
             title={"Total attendance"}
             data={attendance?.totalDays}
+            customClass={"bg-blue-500"}
           />
-          <DashboardCard title={"Present"} data={attendance?.presentDays} />
+          <DashboardCard
+            title={"Present"}
+            data={attendance?.presentDays}
+            customClass={"bg-green-400"}
+          />
           <DashboardCard
             title={"Absent"}
             data={(attendance?.totalDays ?? 0) - (attendance?.presentDays ?? 0)}
+            customClass={"bg-red-400"}
+          />
+        </div>
+
+        {/* Attendance Pie Chart */}
+        <div className="mt-10 flex justify-center">
+          <AttendancePieChart
+            totalDays={attendance?.totalDays ?? 0}
+            presentDays={attendance?.presentDays ?? 0}
           />
         </div>
       </div>

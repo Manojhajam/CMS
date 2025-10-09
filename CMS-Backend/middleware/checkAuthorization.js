@@ -5,7 +5,7 @@ export const checkAuthorization = async (req, res, next) => {
   try {
     // const token = req.headers.token;
     const token = req.headers.authorization?.split(" ").pop();
-    console.log(token)
+    // console.log(token)
 
     if (!token) {
       res.status(400).json({
