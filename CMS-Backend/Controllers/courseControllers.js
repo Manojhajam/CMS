@@ -127,6 +127,35 @@ export const updateCourse = async (req, res) => {
   }
 }
 
+
+export const deleteCourse = async (req, res) => {
+  try {
+    const { courseId } = req.params;
+
+    const foundCourse = await courseModel.findById(courseId);
+    if (!foundCourse) {
+      return res.status(403).json({
+        success: false,
+        message: "Course not found!",
+      });
+    }
+
+    const deleteCourse = await courseModel.findByIdAndDelete(courseId)
+
+    res.status(200).json({
+      success: true,
+      message: `${foundCourse.name} is deleted!`
+    })
+  } catch (error) {
+    console.log(error);
+      res.status(500).json({
+        success: false,
+        message: error.message
+      })
+    
+  }
+}
+
 export const studyMaterial = async (req, res) => {
   try {
     const { courseId } = req.params; // course id

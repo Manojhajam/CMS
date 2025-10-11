@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { makeApiRequest } from "../lib/api";
 import Card from "../components/common/Card";
 import Modal from "../components/common/Modal";
-import { FiEdit, FiEdit2 } from "react-icons/fi";
+import { FiEdit, FiEdit2, FiTrash } from "react-icons/fi";
 import EditBookModel from "../components/common/EditBookModel";
 
 const Courses = () => {
@@ -22,8 +22,11 @@ const Courses = () => {
 
   const [tobeEditedcourse, settobeeditedcourse] = useState(null)
   const [showeditCourseModel, setShoweditCourseModel] = useState(false)
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [tobeDeleteCourse, settobeDeleteCourse] = useState(null)
   // console.log(courseList)
-  
+  // console.log(tobeDeleteCourse);
 
   const isFormValid = name && code && department && selectedStudent.length > 0;
 
@@ -87,6 +90,23 @@ const Courses = () => {
     settobeeditedcourse(course)
     setShoweditCourseModel(true)
   }
+
+  const handledeltetebook =async () => {
+    const { response, error } = await makeApiRequest({
+      endpoint: `/courses/${tobeDeleteCourse?._id}`,
+      method: "DELETE"
+    })
+if (error) {
+  console.log(error);
+  return;
+    }
+    if (response?.success) {
+      setShowDeleteModal(false);
+      settobeDeleteCourse(null);
+      getCourse();
+    }
+    
+  }
   
   
   useEffect(() => {
@@ -140,11 +160,22 @@ const Courses = () => {
                     {course?.name}
                   </h2>
                   {user?.role === "admin" && (
-                    <div
-                      onClick={() => handleEditBook(course)}
-                      className="hover:bg-green-100 p-1 rounded-lg text-green-500"
-                    >
-                      <FiEdit2 size={14} />
+                    <div className="flex gap-2">
+                      <div
+                        onClick={() => handleEditBook(course)}
+                        className="hover:bg-green-100 p-1 rounded-lg text-green-500"
+                      >
+                        <FiEdit2 size={14} />
+                      </div>
+                      <div
+                        onClick={() => {
+                          setShowDeleteModal(true);
+                          settobeDeleteCourse(course);
+                        }}
+                        className="hover:bg-green-100 p-1 rounded-lg text-green-500"
+                      >
+                        <FiTrash size={14} />
+                      </div>
                     </div>
                   )}
                 </div>
@@ -290,6 +321,29 @@ const Courses = () => {
         addedStudentlist={addedStudentlist}
         onCourseUpdated={getCourse}
       />
+
+      <Modal
+        title="Delete Course"
+        open={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+      >
+        <h1 className="text-red-600">
+          Are you sure you want to delete this course.
+        </h1>
+        <div className="flex gap-4 justify-self-end">
+          <button
+            onClick={() => {
+              handledeltetebook();
+            }}
+            className="bg-green-400 text-white cursor-pointer px-5 py-2 rounded-lg"
+          >
+            Yes
+          </button>
+          <button className="bg-red-600 text-white cursor-pointer rounded-lg px-5 py-2" onClick={()=>setShowDeleteModal(false)}>
+            No
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };

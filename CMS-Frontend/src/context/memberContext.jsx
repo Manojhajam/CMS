@@ -14,7 +14,7 @@ const MemberProvider = ({ children }) => {
     const { response, error } =await makeApiRequest({
       endpoint: "/admin/members",
     });
-    console.log(response);  
+    // console.log(response);  
 
     if (error) {
         console.log(error);
