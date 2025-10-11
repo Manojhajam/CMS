@@ -187,10 +187,15 @@ export const getMembers =async (req, res) => {
   }
 }
 
+// Get Faculty and Student
+
 export const getFaculty =async (req, res) => {
  try {
    const faculty = await facultyModel.find().populate("courses").populate("userId");
-   const student =await studentModel.find().populate("userId")
+   const student = await studentModel
+     .find()
+     .populate("userId")
+     .populate("courses");
 
    res.status(200).json({
      success: true,

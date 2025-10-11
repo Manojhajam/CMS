@@ -3,7 +3,7 @@ import React from "react";
 const DashboardCard = ({ title, data, customClass }) => {
   return (
     <div
-      className={`${customClass} py-4 w-full px-4 rounded-lg`}
+      className={`${customClass} bg-green-500 py-4 w-full px-4 rounded-lg`}
     >
       <div className="flex items-center gap-40">
         <div>

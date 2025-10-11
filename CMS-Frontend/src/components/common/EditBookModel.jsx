@@ -47,7 +47,7 @@ const EditBookModel = ({
     }
   };
 
-  const isFormValid = name && code && department && selectedStudent.length > 0;
+  
   return (
     <div>
       <Modal open={open} onClose={onClose} title="Edit Course">
@@ -136,13 +136,8 @@ const EditBookModel = ({
           <div className="flex flex-col">
             <button
               type="submit"
-              // disabled={!isFormValid}
-              className={`px-4 py-2 rounded-lg mt-4 text-white self-end
-    ${
-      isFormValid
-        ? "bg-green-500 hover:bg-green-600 cursor-pointer"
-        : "bg-gray-400 cursor-not-allowed"
-    }
+              className={`px-4 py-2 rounded-lg mt-4 text-white self-end bg-green-500 hover:bg-green-600 cursor-pointer
+    
     `}
             >
               Save Course

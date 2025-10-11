@@ -8,7 +8,7 @@ const studentschema = new Schema({
   department: String,
   
 
-  courses: { type: ObjectId, ref: "Courses" },
+  courses: { type: ObjectId, ref: "Course" },
   attendance: 
     {
       presentDays: { type: Number, default: 0 },

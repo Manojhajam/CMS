@@ -47,7 +47,7 @@ const AttendancePieChart = ({ totalDays = 0, presentDays = 0 }) => {
                 />
               ))}
             </Pie>
-            <Tooltip />
+            <Tooltip />   //hover popup
             <Legend />
           </PieChart>
         </ResponsiveContainer>

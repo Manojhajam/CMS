@@ -22,7 +22,7 @@ const ManageStudent = () => {
         const { response, error } = await makeApiRequest({
           endpoint: "/admin/faculty",
         });
-        console.log(response);
+        // console.log(response.student);
         setLoading(false);
     
         if (error) return;
@@ -120,8 +120,11 @@ const ManageStudent = () => {
                 {student?.userId?.name || "Student"}
               </h1>
 
-              <h3>Department: {student.department}</h3>
-              <h2>Roll No: {student.rollNumber}</h2>
+              <h3 className="text-gray-700">
+                Department: {student.department}
+              </h3>
+              <h2 className="text-gray-700">Roll No: {student.rollNumber}</h2>
+              <h2 className="text-gray-700">Course enrolled: {student?.courses?.name}</h2>
             </Card>
           );
         })}
