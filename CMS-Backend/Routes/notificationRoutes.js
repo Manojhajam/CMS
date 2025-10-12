@@ -8,7 +8,7 @@ const notificationRoutes = express.Router();
 notificationRoutes
   .route("/notifications")
   .get(checkAuthorization, getNotifications)
-  .post(checkAuthorization, createNotification);
+  .post(checkAuthorization  , createNotification);
 
 
 export default notificationRoutes;

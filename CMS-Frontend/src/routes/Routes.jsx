@@ -13,6 +13,7 @@ import FacultyDashboard from "../Pages/FacultyDashboard";
 import AddStaff from "../components/admin/AddStaff";
 import ManageStudent from "../components/admin/ManageStudent";
 import Attendance from "../Pages/Attendance.jsx";
+import Notification from "../Pages/Notification.jsx";
 import Courses from "../Pages/Courses.jsx";
 
 const PageRoutes = () => {
@@ -49,6 +50,7 @@ const PageRoutes = () => {
             element={user?.role !== "student" ? <Attendance /> : ""}
           />
           <Route path="courses" element={<Courses />} />
+          <Route path="notification" element={<Notification/>} />
           <Route path="profile" element={<Profile />} />
         </Route>
       </Route>

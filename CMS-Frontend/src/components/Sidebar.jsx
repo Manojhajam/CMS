@@ -22,45 +22,35 @@ const Sidebar = () => {
       <div>
         <h3 className="text-3xl font-bold mb-4 p-4 text-white">CMS</h3>
         <div className="flex flex-col gap-2">
-          <NavLink
-            className={navLinkClass}
-            to={"/sidebar"}
-          >
+          <NavLink className={navLinkClass} to={"/sidebar"}>
             Dashboard
           </NavLink>
 
-          {user?.role === "admin" && <NavLink 
-            className={navLinkClass}
-            to={"/sidebar/addstaff"}
-          >
-            Manage Faculty
-          </NavLink>}
+          {user?.role === "admin" && (
+            <NavLink className={navLinkClass} to={"/sidebar/addstaff"}>
+              Manage Faculty
+            </NavLink>
+          )}
 
-          {user?.role === "admin" && <NavLink 
-            className={navLinkClass}
-            to={"/sidebar/managestudent"}
-          >
-            Manage Student
-          </NavLink>}
+          {user?.role === "admin" && (
+            <NavLink className={navLinkClass} to={"/sidebar/managestudent"}>
+              Manage Student
+            </NavLink>
+          )}
 
+          {user?.role !== "student" && (
+            <NavLink className={navLinkClass} to={"/sidebar/attendance"}>
+              Attendance
+            </NavLink>
+          )}
 
-          {user?.role !== "student" && <NavLink 
-            className={navLinkClass}
-            to={"/sidebar/attendance"}
-          >
-            Attendance
-          </NavLink>}
-            
-          <NavLink 
-            className={navLinkClass}
-            to={"/sidebar/courses"}
-          >
+          <NavLink className={navLinkClass} to={"/sidebar/courses"}>
             Courses
           </NavLink>
-          <NavLink 
-            className={navLinkClass}
-            to={"/sidebar/profile"}
-          >
+          <NavLink className={navLinkClass} to={"/sidebar/notification"}>
+            Notification
+          </NavLink>
+          <NavLink className={navLinkClass} to={"/sidebar/profile"}>
             Profile
           </NavLink>
         </div>
