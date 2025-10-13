@@ -5,13 +5,48 @@ import { AuthContext } from "../context/authContext";
 import Modal2 from "../components/common/Modal2";
 import { TiTick } from "react-icons/ti";
 import { TbCancel } from "react-icons/tb";
+import { makeApiRequest } from "../lib/api";
 
 const Notification = () => {
   const { user } = useContext(AuthContext);
   const [showmodel, setShowModal] = useState(false);
     const [title, setTitle] = useState("");
     const [message, setMessage] = useState("");
-    const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState("");
+
+  
+  const handleNotification = async (e) => {
+    e.preventDefault();
+
+
+      if (!title || !subject || !message) {
+        alert("All fields are required!");
+        return;
+      }
+    
+    const { response, error } = await makeApiRequest({
+      endpoint: "/notification/notifications",
+      method: "POST",
+      body: {
+        title,
+        message,
+        subject:subject,
+        createdBy: user?._id,
+      },
+    });
+
+    if (error) {
+      console.log(error)
+      return;
+    }
+    if (response?.success)
+    {
+          setShowModal(false);
+          setTitle("");
+          setSubject("");
+          setMessage("");
+}
+  }
   return (
     <>
       <div className="bg-white p-4 shadow-lg">
@@ -51,7 +86,7 @@ const Notification = () => {
         open={showmodel}
         onClose={() => setShowModal(false)}
       >
-        <form>
+        <form onSubmit={handleNotification}>
           <div className="flex flex-col gap-2">
             <label htmlFor="title">Title</label>
             <input
@@ -67,7 +102,7 @@ const Notification = () => {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="title">Subject</label>
+            <label htmlFor="subject">Subject</label>
             <input
               type="text"
               name="subject"
@@ -96,11 +131,11 @@ const Notification = () => {
             />
           </div>
           <div className="mt-2 flex">
-            <button className="flex gap-1 bg-blue-500 items-center px-5 py-2 rounded text-white">
+            <button type="submit" className="flex gap-1 bg-blue-500 items-center px-5 py-2 rounded text-white">
               <TiTick />
               OK
             </button>
-            <button className="flex gap-1 bg-pink-100 items-center px-5 py-2 rounded text-blue-700 font-semibold">
+            <button type="button" onClick={()=>setShowModal(false)} className="flex gap-1 bg-pink-100 items-center px-5 py-2 rounded text-blue-700 font-semibold">
               <TbCancel />
               Cancel
             </button>

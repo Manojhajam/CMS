@@ -3,7 +3,7 @@ import { notificationModel } from "../Model/notificationModel.js";
 export const createNotification = async (req, res) => {
   try {
     const user = req.user; // from checkAuthorization middleware
-    const { title, message, targetRole } = req.body;
+    const { title, message,subject, targetRole } = req.body;
 
     // only admin (or faculty if you want) can create notifications
     if (user.role !== "admin" && user.role !== "faculty") {
@@ -16,6 +16,7 @@ export const createNotification = async (req, res) => {
     const notification = await notificationModel.create({
       title,
       message,
+      subject,
       targetRole: targetRole || "All",
       createdBy: user._id,
     });
