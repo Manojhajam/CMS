@@ -3,7 +3,7 @@ import { notificationModel } from "../Model/notificationModel.js";
 export const createNotification = async (req, res) => {
   try {
     const user = req.user; // from checkAuthorization middleware
-    const { title, message,subject, targetRole } = req.body;
+    const { message,subject, targetRole } = req.body;
 
     // only admin (or faculty if you want) can create notifications
     if (user.role !== "admin" && user.role !== "faculty") {
@@ -14,7 +14,6 @@ export const createNotification = async (req, res) => {
     }
 
     const notification = await notificationModel.create({
-      title,
       message,
       subject,
       targetRole: targetRole || "All",
@@ -44,11 +43,11 @@ export const getNotifications = async (req, res) => {
       .find({
         $or: [{ targetRole: "All" }, { targetRole: user.role }],
       })
+      .populate("createdBy")
       .sort({ createdAt: -1 }); // latest first
 
     res.status(200).json({
       success: true,
-      message: "Notifications fetched successfully",
       data: notifications,
     });
   } catch (error) {

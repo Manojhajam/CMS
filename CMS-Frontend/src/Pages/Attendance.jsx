@@ -1,59 +1,59 @@
-import React from 'react'
-import { useContext } from 'react'
-import { MemberContext } from '../context/memberContext'
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { makeApiRequest } from '../lib/api';
-import { AuthContext } from '../context/AuthContext';
+import React from "react";
+import { useContext } from "react";
+import { MemberContext } from "../context/memberContext";
+import { useState } from "react";
+import { useEffect } from "react";
+import { makeApiRequest } from "../lib/api";
+import { AuthContext } from "../context/authContext";
 
 const Attendance = () => {
-    const [Studentlist, setStudentlist] = useState([]);
+  const [Studentlist, setStudentlist] = useState([]);
   const [loading, setLoading] = useState("");
-  const {user} = useContext(AuthContext)
-    
-    
-          const getStudent = async () => {
-            setLoading(true);
-            const { response, error } = await makeApiRequest({
-              endpoint: "/admin/faculty",
-            });
-            console.log(response);
-            setLoading(false);
-        
-            if (error) return;
-        
-            if (response.success) {
-              setStudentlist(response.student)
-            }
-    };
+  const { user } = useContext(AuthContext);
 
-    const markAttendance = async (studentId, status) => {
-        const { response, error } = await makeApiRequest({
-            endpoint: "/admin/attendance",
-            method: "PUT",
-            body: {
-                studentId:studentId, status:status
-            }       
-        })
-        if (error) {
-            console.log(error)
-            return;
-        }
-        if (response.success) {
-          // Update state immediately with new data
-          setStudentlist((prev) =>
-            prev.map((stu) =>
-              stu._id === studentId
-                ? { ...stu, attendance: response.data.attendance }
-                : stu
-            )
-          );
-        }
+  const getStudent = async () => {
+    setLoading(true);
+    const { response, error } = await makeApiRequest({
+      endpoint: "/admin/faculty",
+    });
+    // console.log(response);
+    setLoading(false);
+
+    if (error) return;
+
+    if (response.success) {
+      setStudentlist(response.student);
     }
-    
-    useEffect(() => {
-        getStudent();
-    },[])
+  };
+
+  const markAttendance = async (studentId, status) => {
+    const { response, error } = await makeApiRequest({
+      endpoint: "/admin/attendance",
+      method: "PUT",
+      body: {
+        studentId: studentId,
+        status: status,
+      },
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    if (response.success) {
+      // Update state immediately with new data
+      setStudentlist((prev) =>
+        prev.map((stu) =>
+          stu._id === studentId
+            ? { ...stu, attendance: response.data.attendance }
+            : stu
+        )
+      );
+    }
+  };
+
+  useEffect(() => {
+    getStudent();
+  }, []);
   return (
     <div>
       <div className="bg-white p-4 shadow-lg">
@@ -119,6 +119,6 @@ const Attendance = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Attendance
+export default Attendance;
